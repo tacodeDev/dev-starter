@@ -1,7 +1,3 @@
-# Tezos Starter Course - 3. Dapp Starter Recipe
-
-[ToC]
-
 ## 3.1 Intro to Dapps
 Applications that run on a distributed computing system are called *Dapps*, short for decentralized applications.
 
