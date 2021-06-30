@@ -1,5 +1,3 @@
-# Tezos Starter Course - 1. Introduction to Tezos
-
 ## 1.1 What is Tezos?
 In this section, you will be able to revisit blockchain basics as well as learn about the most important Tezos concepts.
 
