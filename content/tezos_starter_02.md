@@ -1,5 +1,3 @@
-# Tezos Starter Course - 2. Basic Smart Contract Ingredients
-
 ## 2.1 Intro to Tezos Smart contracts
 In this brief intro, we will introduce you to Tezos smart contracts and give you a short overview of the different smart contract languages on Tezos.
 
