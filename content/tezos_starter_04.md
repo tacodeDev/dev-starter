@@ -1,5 +1,3 @@
-# Tezos Starter Course - 4. Token Shop Dapp Recipe (WIP)
-
 ## 4.1 The smart contract of the Token Shop
 In this section, we will build a very simple shop where users can buy various tokens. We will store the amount of tokens we have in stock as well as their price.
 
