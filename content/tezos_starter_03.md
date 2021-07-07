@@ -76,6 +76,35 @@ let main (p, s : parameter * storage) : return =
  | Decrement n -> sub (n, s))
 ```
 
+```python
+# TODO: very and write proper test
+import smartpy as sp
+
+class Counter(sp.Contract):
+    def __init__(self, value):
+        self.init(counter = value)
+
+    @sp.entry_point
+    def increment(self, params):
+        self.data.counter += params.value
+
+    @sp.entry_point
+    def decrement(self, params):
+        self.data.counter -= params.value
+
+    @sp.offchain_view(pure = True)
+    def get_counter(self, req):
+        sp.result(self.data.counter)
+
+@sp.add_test(name = "Counter")
+def test():
+    c1 = Counter(0)
+    scenario = sp.test_scenario()
+    scenario += c1
+    #c1.increment(1)
+    #scenario.verify(c1.data.counter == 1)
+```
+
 You can test and if you want even deploy it in the [LIGOlang IDE](https://ide.ligolang.org/p/LhrUay2LusUXBiqiEhU4iA) or your CLI
 > [name=gabriela]maybe a gif to visually explain how to deploy the contract? and maybe suggest a function name from which the contract should start and suggested initial storage
 
