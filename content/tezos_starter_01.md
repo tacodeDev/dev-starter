@@ -62,7 +62,7 @@ Before creating a Tezos wallet with Temple, we need to add the Temple extension 
 ### Create a new Tezos wallet
 Once you have successfully installed the Temple wallet, you can proceed to create a Tezos wallet.
 
-![](https://raw.githubusercontent.com/moritzfelipe/tezos-development-101/main/content/gifs/tezos_1_3_2_create_wallet.gif)
+![](https://raw.githubusercontent.com/tacodeDev/dev-starter/main/content/gifs/tezos_1_3_2_create_wallet.gif)
 
 1. Select the "Create a new Wallet" card in your browser extension.
 2. Enter and repeat a password.
@@ -97,7 +97,7 @@ There are different entities that can send you testnet tokens (*faucets*). You c
 ### Send Tezos testnet tokens
 Now that you have received testnet tokens, you can make your first transaction.
 
-![](https://raw.githubusercontent.com/moritzfelipe/tezos-development-101/main/content/gifs/tezos_1_4_2_send_tokens.gif)
+![](https://raw.githubusercontent.com/tacodeDev/dev-starter/main/content/gifs/tezos_1_4_2_send_tokens.gif)
 
 1. To test sending tokens, you need to create a second account.
 2. Copy the address of your second account.
