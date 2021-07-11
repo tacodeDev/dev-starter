@@ -75,7 +75,7 @@ In this section, we will give you an introduction to the LIGO IDE.
 To quickly test contracts and interact with the learned content, we will use an IDE (integrated development environment) in the first sections of this chapter.
 
 **IDE Basics**
-![](https://raw.githubusercontent.com/moritzfelipe/tezos-development-101/main/content/gifs/tezos_2_3_1_IDE.gif)
+![](https://raw.githubusercontent.com/tacodeDev/dev-starter/main/content/gifs/tezos_2_3_1_IDE.gif)
 
 You can reach the LIGO IDE under [ide.ligolang.org](https://ide.ligolang.org/) (GIF 1.).
 
@@ -90,7 +90,7 @@ On the top left of the editor, you have the ability to create a link with which 
 Under all contracts in this chapter, we will provide a link to the contract so you can quickly test and interact with it. The best way to learn is to interact with newly formed knowledge, so we highly encourage you to do that.
 
 **Compile Contract and Expression**
-![](https://raw.githubusercontent.com/moritzfelipe/tezos-development-101/main/content/gifs/tezos_2_3_2_IDE.gif)
+![](https://raw.githubusercontent.com/tacodeDev/dev-starter/main/content/gifs/tezos_2_3_2_IDE.gif)
 
 On the right side, in the configure section, you can perform various actions on your contract code.
 
@@ -100,12 +100,12 @@ Underneath your code editor will appear either a compilation error (GIF 1.1) or 
 You can also compile a single expression (GIF 3.).
 
 **Evaluate Function and Value**
-![](https://raw.githubusercontent.com/moritzfelipe/tezos-development-101/main/content/gifs/tezos_2_3_3_IDE.gif)
+![](https://raw.githubusercontent.com/tacodeDev/dev-starter/main/content/gifs/tezos_2_3_3_IDE.gif)
 
 With “Evaluate Function” you can evaluate a single function (GIF 1.) and with “Evaluate Value” a single value (GIF 2.).
 
 **Dry Run and Generate Deploy Script**
-![](https://raw.githubusercontent.com/moritzfelipe/tezos-development-101/main/content/gifs/tezos_2_3_4_IDE.gif)
+![](https://raw.githubusercontent.com/tacodeDev/dev-starter/main/content/gifs/tezos_2_3_4_IDE.gif)
 
 The Dry Run functionality is also very important. You can use it to test how your contract will behave once deployed. In the first input field “Access function” you have to enter the name of your main function. Then, beneath the main function, you need to input the parameters of the function, and under the parameters, enter the storage (GIF 1.). Don’t worry if this is a bit cryptic at the moment we will explain these concepts in the next section.
 After entering the inputs and pressing the “Run” button, you either see compilation errors or the return value of your contract in Michelson (GIF 2.1).
@@ -149,7 +149,7 @@ When the contract is *originated* (deployed), the initial value of the storage i
 Let’s test this contract now, and since we originate it, we need to provide parameter and storage.
 In the case of this very simple contract, we just return the storage and do nothing with the parameter.
 
-![](https://raw.githubusercontent.com/moritzfelipe/tezos-development-101/main/content/gifs/tezos_2_4_1_IDE.gif)
+![](https://raw.githubusercontent.com/tacodeDev/dev-starter/main/content/gifs/tezos_2_4_1_IDE.gif)
 
 Test this contract yourself in the [LIGOlang IDE](https://ide.ligolang.org/p/E74sPdvyFgpGTV5qnOfCww).
 
