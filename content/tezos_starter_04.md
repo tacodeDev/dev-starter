@@ -1,4 +1,4 @@
-## 4.1 The smart contract of the Token Shop
+## 4.1 Shop Contract
 In this section, we will build a very simple shop where users can buy various tokens. We will store the amount of tokens we have in stock as well as each token’s price.
 
 Let's start with defining some types. 
