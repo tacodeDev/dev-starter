@@ -90,8 +90,8 @@ We need to create a list of operations that we will return at the end of the con
 
 You can now deploy this contract via the CLI or in the LIGOlang IDE.
 Storage example: `Map.literal [
- (1n, { current_stock = 20n ; token_price = 2mutez }) ;
- (2n, { current_stock = 4n ; token_price = 3mutez }) ;
+ (0n, { current_stock = 20n ; token_price = 2mutez }) ;
+ (1n, { current_stock = 4n ; token_price = 3mutez }) ;
 ]`
 
 ## 4.2 Create an NFT
