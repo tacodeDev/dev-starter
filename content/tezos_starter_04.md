@@ -88,7 +88,7 @@ We need to create the receiver address and wrap it as a contract unit that repre
 We will create a transaction to an account and not a contract, so we will use unit as the first parameter and then pass the amount and the receiver address.
 We need to create a list of operations that we will return at the end of the contract, which, in this case, will be just one, and then return the list as well as our updated `token_shop_storage` storage at the end of the contract.
 
-You can now deploy this contract via the CLI or in the [LIGOlang IDE](https://ide.ligolang.org/p/N3D8IeExpI9AeQel39bkuw).
+You can now deploy this contract via the CLI or in the LIGOlang IDE.
 Storage example: `Map.literal [
  (1n, { current_stock = 20n ; token_price = 2mutez }) ;
  (2n, { current_stock = 4n ; token_price = 3mutez }) ;
