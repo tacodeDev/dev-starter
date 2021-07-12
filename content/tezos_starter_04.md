@@ -97,7 +97,13 @@ Storage example: `Map.literal [
 ## 4.2 Create an NFT
 In the last section, we created a shop where users can buy tokens. We already have the payment functionality, but they don't get anything back in return. In this section, we will create an NFT that can be sold in the shop.
 
-As you learned in the second chapter NFT are non-fungible tokens, meaning that they are unique and not interchangeable. Digital Art is a popular use case for NFTs we will use this as an example here.
+A crypto token or simply token is a digital asset whose ownership is stored on a blockchain.
+
+A token can be fungible which means that all tokens of this type are the same and interchangeable. This is the case for cryptocurrencies like tez or btc, for example.
+
+A token can also be non-fungible, which means that all tokens are different. Such a token is called a non-fungible token (NFT), and can represent ownership of unique assets like digital art, music, or in-game items.
+
+Digital Art is a very popular use case for NFTs so we will use this as an example here.
 
 **Set up OpenMinter**
 We are going to use OpenMinter in this course to create NFTs.
@@ -147,9 +153,25 @@ Now that we have created an NFT let's transfer it to a contract so we are able t
 
 ## 4.3 NFT Transfer Contract
 In this section we will create a very simple contract that can transfer an FA2 token, to be specific an NFT.
+### FA2 Token Standard
+You might have heard of the ERC-20 token standard on Ethereum. FA2 is a token standard on Tezos. A token standard helps to standardize the important features of tokens, like functionality and permissions. This allows us to create common interface standards so that developers can easily build applications that interact with tokens like wallets, exchanges, or games.
+FA2 entrypoints
+An FA2 compliant token must have the following Michelson entrypoints: transfer, balance_of, update_operators.
+
+**Transfer**
+The Transfer entrypoint transfers tokens between owners.
+
+**Balance of**
+The Balance_of entrypoint gets the balance of multiple account/token pairs.
+
+**Update_operators**
+Adds or removes token operators for the specified token owners and token IDs. An operator is a Tezos address that originates token transfer operation on behalf of the owner, while the owner is a Tezos address which can hold tokens.
+
+### FA2 NFT Transfer Contract
+Now that you know what the FA2 token standard is, we can create a contract that can transfer FA2 tokens.
 
 **FA2 transfer entrypoint**
-Our contract needs to transfer the NFT. The NFT we create works with the FA2 token standard. This means that we can transfer our NFT with the transfer entrypoint. You already know about the FA2 entrypoints from our previous chapters.
+Our contract needs to transfer the NFT. The NFT we create works with the FA2 token standard. This means that we can transfer our NFT with the transfer entrypoint. 
 
 You can find a description for the LIGO FA2 implementation of the transfer entrypoint on [Tezos’ GitLab](https://gitlab.com/tezos/tzip/-/blob/master/proposals/tzip-12/implementing-fa2.md). This is what we are going to use here.
 
