@@ -103,7 +103,7 @@ A token can be fungible which means that all tokens of this type are the same an
 
 A token can also be non-fungible, which means that all tokens are different. Such a token is called a non-fungible token (NFT), and can represent ownership of unique assets like digital art, music, or in-game items.
 
-Digital Art is a very popular use case for NFTs so we will use this as an example here.
+Digital art is a very popular use case for NFTs so we will use this as an example here.
 
 **Set up OpenMinter**
 We are going to use OpenMinter in this course to create NFTs.
@@ -131,13 +131,13 @@ yarn start
 Now OpenMinter should run under:
 http://localhost:3000/
 
-Even though NFTs are unique, we can create multiple editions of an NFT. You might know this from art prints or photographs that are often printed in editions, each item numbered and signed by the artist.
+
+Even though NFTs are unique, we can create multiple editions of an NFT. You might know this from art prints or photographs that are often printed in editions, each numbered and signed by the artist.
 
 **Mint NFTs**
-A token contract can mint (*create*) NFTs. In this example, we are going to use a contract to mint an edition consisting of multiple NFTs of an artwork.
+A token contract can *mint* (create) NFTs. In this example, we are going to use a contract to mint an edition consisting of multiple NFTs of an artwork.
 
-On OpenMinter the NFT token contract is called a *Collection*. Go ahead and first create a Collection. Click on "Collection" in the top navbar, then on "New Collection" on the side
-bar and enter a name like "Green Square" for example.
+On OpenMinter the NFT token contract is a *Collection*. Go ahead and create a Collection on OpenMinter. Click on "Collection" in the top navbar, then on "New Collection" on the side bar and enter a name like "Green Square" for example.
 
 Now we can create our first asset in our collection, the first artwork of our edition. Click on "New Asset", drag an image to the screen, and click on the "Next" button.
 
@@ -145,7 +145,7 @@ You need to select a collection for your asset, for example, our Green Square, n
 
 Confirm the details of your asset and click on the "Create" button. Now your wallet should pop up and ask you to sign the transaction for the creation of your asset. If you have done that you might need to wait a couple of minutes and your asset should appear on your collection and inside your wallet.
 
-Click on the asset in your wallet and on the "About" tab. There you can see the address of our token contract, the name, and the id of the token that you created. Since it's the first one, the id is 0.
+Click on the asset in your wallet and on the "About" tab. There you can see the address of the token contract, the name, and the id of the token that you created. Since it's the first one, the id is 0.
 
 Now that we have created an NFT let's transfer it to a contract so we are able to sell it there.
 
