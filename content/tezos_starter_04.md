@@ -129,9 +129,7 @@ yarn start
 ```
 
 Now OpenMinter should run under:
-```
 http://localhost:3000/
-```
 
 Even though NFTs are unique, we can create multiple editions of an NFT. You might know this from art prints or photographs that are often printed in editions, each item numbered and signed by the artist.
 
