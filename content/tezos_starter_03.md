@@ -1,5 +1,5 @@
 ## 3.1 Intro to Dapps
-Applications that run on a distributed computing system are called *Dapps*, short for decentralized applications.
+Applications that run on a blockchain are called *Dapps*, short for decentralized applications.
 
 Let’s have a look at some attributes of Dapps.
 
@@ -23,7 +23,7 @@ A Dapp needs both backend code in the form of smart contracts and front-end code
 This section of the chapter will show you how to get started with the Taquito Boilerplate in React and how to interact with a Tezos Dapp through your Temple wallet.
 
 Before we get started, let's learn a bit more about Taquito.
-Taquito is a TypeScript library suite that will help you build web interfaces for your Dapp. We will use Taquito to connect our Dapp to the user’s wallet, make transactions, and interact with a contract. Taquito is your Dapp’s connection to the Tezos blockchain.
+Taquito is a TypeScript library suite that will help you build user interfaces for your Dapp. We will use Taquito to connect our Dapp to the user’s wallet, make transactions, and interact with a contract. Taquito is your Dapp’s connection to the Tezos blockchain.
 
 You can learn more about Taquito on the [Taquito website](https://tezostaquito.io/) or on [Open Tezos](https://opentezos.com/dapp/taquito).
 
