@@ -35,8 +35,6 @@ SmartPy adds another abstraction layer; it compiles to SmartML, which is written
 
 Learn more about SmartPy in the [SmartPy Documentation](https://smartpy.io/reference.html).
 
-For the following sections of this chapter, you will be able to choose if you want to learn how to write Tezos smart contracts in CameLIGO or SmartPy.
-
 ## 2.2 Introduction to CameLIGO
 This section will give you a brief intro to LIGO, its different syntaxes, and Ocaml.
 
