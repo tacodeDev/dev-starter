@@ -77,7 +77,6 @@ let main (p, s : parameter * storage) : return =
 ```
 
 ```python
-# TODO: very and write proper test
 import smartpy as sp
 
 class Counter(sp.Contract):
@@ -86,11 +85,11 @@ class Counter(sp.Contract):
 
     @sp.entry_point
     def increment(self, params):
-        self.data.counter += params.value
+        self.data.counter += params
 
     @sp.entry_point
     def decrement(self, params):
-        self.data.counter -= params.value
+        self.data.counter -= params
 
     @sp.offchain_view(pure = True)
     def get_counter(self, req):
@@ -101,8 +100,10 @@ def test():
     c1 = Counter(0)
     scenario = sp.test_scenario()
     scenario += c1
-    #c1.increment(1)
-    #scenario.verify(c1.data.counter == 1)
+    scenario += c1.increment(1)
+    scenario.verify(c1.data.counter == 1)
+    scenario += c1.decrement(1)
+    scenario.verify(c1.data.counter == 0)
 ```
 
 You can test and if you want even deploy it in the [LIGOlang IDE](https://ide.ligolang.org/p/LhrUay2LusUXBiqiEhU4iA) or your CLI
