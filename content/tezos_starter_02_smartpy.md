@@ -393,23 +393,52 @@ A *boolean* has one of two possible values: `True` or `False`.
 `admin = sp.bool(False)`
 
 ### Address
+> adjust
 *Addresses* consist of a string value and an `address` type.
  
 ```
-let my_account : address =
- ("tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx" : address)
+my_account = sp.address("tz1KqTpEZ7Yob7QbPE4Hy4Wo8fHG8LhKxZSx")
 ```
 
 ### Timestamp
-You can obtain the starting time of the current block using the built-in function `Tezos.now`.
+You can obtain the starting time of the current block using the built-in function `sp.now`.
 
-`let today : timestamp = Tezos.now`
+```
+import smartpy as sp
+class MyContractExample(sp.Contract):
+    #pass # we are skipping the __init__
+    def __init__(self):
+        self.init_type(
+            t = sp.TRecord(
+                result = sp.TOption(sp.TTimestamp)
+            )
+        )
+        self.init(
+            result = sp.none
+        )
+
+    @sp.entry_point()
+    def add(self):
+        self.data.result = sp.some(sp.now)
+
+
+@sp.add_test(name = "MyContractExample")
+def test():
+    # define a contract
+    c1 = MyContractExample()
+    scenario  = sp.test_scenario()
+    scenario += c1
+    scenario += c1.add().run(now=sp.timestamp(1571761674))
+```
 
 Timestamps can do arithmetical operations with integers.
+
+> add_minutes, add_hours add_days and so on is possible btw
+
 ```
-let some_date : timestamp = ("2009-01-03t00:00:00Z" : timestamp)
-let one_day : int = 86_400
-let one_day_later : timestamp = some_date + one_day
+some_date = sp.timestamp_from_utc(2009,1,3,0,0,0)
+one_day = sp.int(86_400)
+one_day_later = some_date.add_seconds(one_day)
 ```
 
 Please be aware that it is up to the *baker* (validator of a block) to set the current timestamp value.
@@ -417,10 +446,12 @@ Please be aware that it is up to the *baker* (validator of a block) to set the c
 ### Unit
 The `unit` type has only one value that carries no information, it is generally used as a placeholder.
 
-`let n : unit = ()`
+`u = sp.unit`
 
 The unit type is also used as an argument in functions that don’t need an input value.
- 
+
+> this seems to be a mistake? what does this example have to do with unit?
+
 `let time_now() : timestamp = Tezos.now`
 
 We have now looked into most of the important basic types. If you want to have a look at a full list of all available data types you can find them in this [LIGOlang GitLab repository](https://gitlab.com/ligolang/ligo/-/blob/dev/src/environment/environment.ml).
