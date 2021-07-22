@@ -210,6 +210,30 @@ let main (p, s : parameter * storage) : return =
 (([] : operation list), s)
 ```
  
+```
+import smartpy as sp
+class MyContractExample(sp.Contract):
+    def __init__(self):
+        self.init_type(
+            sp.TRecord(
+                my_field_one = sp.TString,
+                my_field_two = sp.TNat
+            )
+        )
+        self.init(
+            sp.record(
+                my_field_one = "Test",
+                my_field_two = 1
+            )
+        )
+
+@sp.add_test(name = "MyContractExample")
+def test():
+    # define a contract
+    c1 = MyContractExample()
+    scenario  = sp.test_scenario()
+    scenario += c1
+```
 Test this contract in the [LIGOlang IDE](https://ide.ligolang.org/p/9WMafeGvmLBkIYBzttu_tg).
 
 Now the contract looks like a conventional Tezos contract, without much functionality though.
