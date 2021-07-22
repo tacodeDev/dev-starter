@@ -240,6 +240,9 @@ Now the contract looks like a conventional Tezos contract, without much function
 Before we can add more functionality you need to learn some basic Tezos types and in the next part how to name your values.
 
 ### Constants 
+
+> doesnt exisit here in python lol
+
 Values can only be assigned to a *constant* at their definition. Constants are *immutable* and can not be reassigned.
 
 **Constant definition**
@@ -247,11 +250,35 @@ You define a constant with the `let` keyword a *name*, *type* and *value*.
 `let my_name : string = "Alice"`
 
 ### Variables 
+
+> "constant variables" is a oxymoron btw
+> python everything is mutable, so there aren't any constants
+
 CameLIGO only features constant variables. Once they are declared, the value cannot be changed.
 
 ```
 let add (a : int) (b : int) : int =
  let c : int = a + b in c
+```
+
+```
+import smartpy as sp
+class MyContractExample(sp.Contract):
+    def __init__(self):
+        self.init(result=0)
+
+    @sp.entry_point()
+    def add(self, a,b):
+        c=a+b
+        self.data.result=c
+
+@sp.add_test(name = "MyContractExample")
+def test():
+    # define a contract
+    c1 = MyContractExample()
+    scenario  = sp.test_scenario()
+    scenario += c1
+    scenario += c1.add(a=1,b=2)
 ```
 
 *Build-in types* are data types that are the basic building blocks of the LIGO language.
