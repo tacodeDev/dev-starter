@@ -388,9 +388,9 @@ is_a_nat = sp.is_nat(3).open_some("Is not a nat")
 In the next section, you will learn how to do simple arithmetics with these numerical types.
 
 ### Boolean
-A *boolean* has one of two possible values: `true` or `false`.
+A *boolean* has one of two possible values: `True` or `False`.
 
-`let admin : bool = false`
+`admin = sp.bool(False)`
 
 ### Address
 *Addresses* consist of a string value and an `address` type.
