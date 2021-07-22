@@ -285,31 +285,51 @@ def test():
 
 ### String 
 A string is a sequence of characters and is defined with the string keyword.
-`let my_name : string = "alice"`
+`my_name = sp.string("alice")`
  
 Strings can be *concatenated* (joined) using the ^ operator.
 ```
-let name : string = "Alice"
-let greeting : string = "Hello"
-let full_greeting : string = greeting ^ " " ^ name  // "Hello Alice"
+name = sp.string = "Alice"
+greeting = sp.string = "Hello"
+full_greeting = sp.string = greeting + name  // "Hello Alice"
 ```
 
 Evaluate this value in the [LIGOlang IDE](https://ide.ligolang.org/p/E74sPdvyFgpGTV5qnOfCww).
  
 // GIF showing how to evaluate value.
  
-*Substrings* can be extracted using the built-in function `String.sub`. The first character has the index 0.
+*Substrings* can be extracted using the built-in function `sp.slice`. The first character has the index 0. Keep in mind it returns an option and needs to be converted back to string or fail with `open_some`
+
 ```
-let name  : string = "Alice"
-let slice : string = String.sub 0n 3n name // "Ali"
+import smartpy as sp
+class MyContractExample(sp.Contract):
+    #pass # we are skipping the __init__
+    def __init__(self):
+        self.init(
+            result = "ad"
+        )
+
+    @sp.entry_point()
+    def add(self):
+        name = sp.string("Alice")
+        c = sp.slice(name, 0, 3).open_some("Slicing failed.")
+        self.data.result = c
+
+@sp.add_test(name = "MyContractExample")
+def test():
+    # define a contract
+    c1 = MyContractExample()
+    scenario  = sp.test_scenario()
+    scenario += c1
+    scenario += c1.add()
 ```
- 
-The length of a string can be found using a built-in function `String.length`.
+
+The length of a string can be found using a built-in function `sp.len`.
 ```
-let name : string = "Alice"
-let length : nat = String.length name  // length = 5
+name = sp.string("Alice")
+length = sp.len(name)  // length = 5
 ```
- 
+
 
 ### Numerical Types
 LIGO offers three built-in numerical types: *int*, *nat*, and *tez*.
