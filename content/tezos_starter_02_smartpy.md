@@ -338,9 +338,9 @@ LIGO offers three built-in numerical types: *int*, *nat*, and *tez*.
 Values of type `int` are *integers*. They can be positive, negative, or zero.
 
 ```
-let a: int = 42
-let b: int = -3
-let c: int = 0
+a = sp.int(42)
+b = sp.int(-3)
+c = sp.int(0)
 ```
 
 **Nat**
@@ -348,19 +348,19 @@ Values of type `nat` are *natural integral numbers*. They can’t have a negativ
 Natural numbers are written as digits followed by the *suffix* (group of letters added at the end of a word) `n`.
 
 ```
-let a : nat = 7n
-let b : nat = 0n
+a = sp.nat(7)
+b = sp.nat(0)
 ```
 
 **Tez**
 Tezos tokens can be written as digits followed by the suffix `tez` or `tz` for the unit `tez`.
 
 ```
-let a : tez = 1tez
-let b : tez = 3tz
- 
-let c : tez = 1.3tez
-let d : tez = 3.3tz
+a = sp.tez(1)
+b = sp.tez(3)
+
+c = sp.tez(1.3)
+d = sp.tez(3.3)
 ```
  
 Tezos tokens can be written as digits followed by the suffix `mutez` for the unit of millionth of tez. 
