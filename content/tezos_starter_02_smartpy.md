@@ -365,24 +365,24 @@ d = sp.tez(3.3)
  
 Tezos tokens can be written as digits followed by the suffix `mutez` for the unit of millionth of tez. 
 ```
-let e : tez = 1000000mutez
+e = sp.mutez(1000000)
 ```
  
 You can use underscores to improve readability when defining large numbers.
 ```
-let f : tez = 1000_000mutez
+f = sp.mutez(1000_000)
 ```
 
 You can *cast* (convert) an int to a nat and the other way around.
 ```
-let a : int = int (1n)
-let b : nat = abs (1)
+a = int(1)
+b = abs(1)
 ```
  
-You can check if a value is a nat with `Michelson.is_nat`. It accepts an int and returns an `optional nat`. If the input is not a nat it returns none.
+You can check if a value is a nat with `sp.is_nat`. It accepts an int and returns an `optional nat`. If the input is not a nat it returns none.
 
 ```
-let is_a_nat : nat option = Michelson.is_nat (3)
+is_a_nat = sp.is_nat(3).open_some("Is not a nat")
 ```
 
 In the next section, you will learn how to do simple arithmetics with these numerical types.
