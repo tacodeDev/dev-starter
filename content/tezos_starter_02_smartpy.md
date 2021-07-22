@@ -129,6 +129,44 @@ Let’s have a look at the most simple “Hello, World!” contract to understan
 let main (p, s : string * string) : operation list * string = 
 (([] : operation list), s)
 ```
+TODO:
+- explain entry_point annotation
+
+```
+# this is a very useless example (just like the one in camligo) down below is a better hello world
+import smartpy as sp
+class MyContractExample(sp.Contract):
+    pass
+
+@sp.add_test(name = "MyContractExample")
+def test():
+    c1 = MyContractExample()
+    scenario  = sp.test_scenario()
+    scenario += c1
+```
+
+```
+import smartpy as sp
+class MyContractExample(sp.Contract):
+    def __init__(self):
+        self.init(
+            greet="Hello World"
+        )
+
+    @sp.offchain_view(pure=True)
+    def greet(self):
+        sp.result(self.data.greet)
+
+
+@sp.add_test(name = "MyContractExample")
+def test():
+    # define a contract
+    c1 = MyContractExample()
+    scenario  = sp.test_scenario()
+    scenario += c1
+    scenario.verify(c1.data.greet == "Hello World")
+```
+
 
 In CameLIGO you define functions with the *let* keyword and the function name, in this case, the main function.
 
