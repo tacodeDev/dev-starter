@@ -522,7 +522,37 @@ Functions are as the name suggests, important in functional programming language
 We use the `let` keyword to define functions. After the function *name*, you specify the *parameter*, consisting of a *name* and *type* for the *argument value*. After the parameter, you specify the *return type* and finally the *return value*.
 
 ```
-let add (a, b : int * int) : int = a + b 
+@sp.global_lambda
+def add(params):
+  sp.result(params.a + params.b)
+```
+
+> Full example:
+```
+import smartpy as sp
+
+class MyContractExample(sp.Contract):
+    def __init__(self):
+        self.init_type(sp.TRecord(mycounter = sp.TInt).layout("mycounter"))
+        self.init(
+            mycounter=1
+        )
+    @sp.global_lambda
+    def add(params):
+        sp.result(params.a + params.b)
+
+    @sp.entry_point()
+    def dostuff(self):
+        self.data.mycounter = self.add(sp.record(a=2,b=3))
+
+@sp.add_test(name = "MyContractExample")
+def test():
+    # define a contract
+    c1 = MyContractExample()
+    scenario  = sp.test_scenario()
+    scenario += c1
+    scenario += c1.dostuff()
+    scenario.verify(c1.data.mycounter == 5)
 ```
 
 Test this function in the [LIGOlang IDE](https://ide.ligolang.org/p/tPgv-MsjhEgdx0BnkcVMUw).
