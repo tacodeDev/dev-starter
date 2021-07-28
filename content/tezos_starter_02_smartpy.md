@@ -808,26 +808,26 @@ Non-comparable types include `maps`, `sets`, or `lists`.
 
 **Comparing strings**
 ```
-let a : string = "Alice"
-let b : string = "Alice"
-let c : bool = (a = b) // true
+a = sp.string ("Alice")
+b = sp.string ("Alice")
+c = sp.verify(a == b) // true
 ```
 
 **Comparing numbers**
 ```
-let a : int  = 5
-let b : int  = 4
-let c : bool = (a = b)
-let d : bool = (a > b)
-let e : bool = (a <= b)
-let f : bool = (a <> b)
+a = sp.int(5)
+b = sp.int(4)
+c = sp.verify(a == b)
+d = sp.verify(a > b)
+e = sp.verify(a <= b)
+f = sp.verify(a != b)
 ```
 
 **Comparing tez**
 ```
-let a : tez  = 5mutez
-let b : tez  = 10mutez
-let c : bool = (a = b) // false
+a = sp.mutez(5)
+b = sp.mutez(10)
+c = sp.verify(a == b)
 ```
 
 ### Conditionals
@@ -835,13 +835,14 @@ Conditional logic enables forking the `control flow` depending on the state.
 
 Let's use conditional logic to decide if a user is either a minor or an adult.
 
-```
-type user_majority = 
-  Minor
-| Adult
 
-let check_majority (a : nat) : daytime =
-  if a < 18n then Minor else Adult
+```
+@sp.entry_point()
+def check_majority (self, a):
+    sp.if a < 18:
+        self.data.something = True
+    sp.else:
+        self.data.something = False
 ```
 
 Test this function in the [LIGOlang IDE](https://ide.ligolang.org/p/6IemBM-M4xWnAkGT6Hxi9w).
