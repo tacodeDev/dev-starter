@@ -464,43 +464,51 @@ In the previous section, you were introduced to the built-in numerical types: `i
 ### Addition
 The addition of two numeric values of the same type results in the same type.
 ```
-let a : int = 5 + 10
-let b : nat = 5n + 10n
-let c : tez = 5mutez + 0.000_010tez
+a = sp.int(5) + sp.int(10)
+b = sp.nat(5) + sp.nat(10)
+c = sp.tez(5) + sp.mutez(1)
 ```
 
 The addition of a nat and an int results in an int.
-`let b : int = 5n + 10`
+> this doesnt work in smartpy
+` ERROR: sp.nat(5) + sp.int(10)`
+`b = int = 5n + 10`
 
 ### Subtraction
 The subtraction of int and int results in an int.
-`let a : int = 5 - 10`
+`a = 5 - 10`
 
 The subtraction of a nat and a nat results in an int.
-`let b : int = 5n - 2n`
+`a = sp.nat(5) - sp.nat(2)`
 
-The subtraction of a tez and a tez results in a tez.
-`let d : tez = 5mutez - 1mutez`
+The subtraction of a mutez and a tez results in a mutez.
+`d = sp.mutez(5) - sp.tez(1)`
 
 ### Multiplication
 The multiplication of an int and int results in an int.
-`let a : int = 5 * 5`
+`a = 5 * 5`
 
 The multiplication of a nat and a nat results in an nat.
-`let b : nat = 5n * 5n`
+`b = sp.nat(5) * sp.nat(5)`
 
 The multiplication of a tez and a nat results in a tez.
-`let c : tez = 5n * 5mutez`
+> doesnt work in smartpy
+`c = 5 * sp.mutez(5)`
+> have to do like this, make sure to use sp.tez to not make it smaller. lol
+`c = sp.tez(5) * sp.mutez(5)`
 
 ### Division
 The division of an int and int results in an int.
-`let a : int = 10 / 3`
+`a = 10 / 3`
 
 The division of a nat and a nat results in an nat.
-`let b : nat = 10n / 3n`
+`b = sp.nat(10) sp.nat(3)`
 
 The division of a tez and a tez results in a nat.
-`let c : nat = 10mutez / 3mutez`
+> doens work, sooorry
+`c = sp.mutez(10) / sp.mutez(3)`
+> this works
+`c = sp.mutez(10 // 3)`
 
 You can learn how to compute the remainder of the Euclidean division and how to return the quotient and the remainder in the [LIGOlang documentation](https://ligolang.org/docs/language-basics/math-numbers-tez).
 
