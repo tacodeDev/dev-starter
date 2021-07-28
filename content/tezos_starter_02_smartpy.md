@@ -584,6 +584,8 @@ This is how your contract should behave in the IDE:
 // GIF of testing
  
 **Example Contract: Parameter + Storage 2**
+> this doesn make much sense in smartpy, maybe just delete?
+
 This contract is very similar to the last one but we use a constant and we introduce the new keyword `in`.
 
 ```
@@ -611,11 +613,33 @@ An *anonymous function* can be defined without assigning them a name. It is the 
 Anonymous functions are being defined using the `fun` keyword.
 
 ```
-let increment (b : int) : int = (fun (a : int) -> a + 1) b
-let a : int = increment 1 // a = 2
+import smartpy as sp
+
+class MyContractExample(sp.Contract):
+    def __init__(self):
+        self.init_type(sp.TRecord(mycounter = sp.TInt).layout("mycounter"))
+        self.init(
+            mycounter=1
+        )
+
+    @sp.entry_point()
+    def dostuff(self):
+        increment = sp.build_lambda(lambda b: b+1)
+        self.data.mycounter = increment(4)
+
+@sp.add_test(name = "MyContractExample")
+def test():
+    # define a contract
+    c1 = MyContractExample()
+    scenario  = sp.test_scenario()
+    scenario += c1
+    scenario += c1.dostuff()
+    scenario.verify(c1.data.mycounter == 5)
 ```
 
 Anonymous functions are often arguments or returned from other functions, making the latter *higher-order functions*.
+
+> its the same above, delete this?
 
 ```
 type storage = int
@@ -628,6 +652,7 @@ let main (p, s : parameter * storage) : return =
 
 One of the most popular use cases for anonymous functions is to pass them to iteration functions like `List.map`. More on lists and iterations in another section.
  
+> this doesnt work in python, you would rather do ```sp.for...in``
 ```
 let incr_map (l : int list) : int list =
   List.map (fun (i : int) -> i + 1) l
