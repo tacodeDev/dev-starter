@@ -667,6 +667,9 @@ At the beginning of this chapter, we have already talked about *main functions*.
 In this section, you will learn how to make your contracts smart, by routing their control flow.
 
 ### Variant
+
+> makes no sense to use it in smartpy i think
+
 A *variant* type can define a type depending on different cases.
 
 **Definition**
@@ -700,10 +703,16 @@ let b : user = Guest
 In this example, we add more information to the variant in the form of an argument of the type `name`, a `string` and add a third constructor, `Guest` with no information.
 
 ### Pattern matching
+
+> makes no sense to use it in smartpy i think
+
 `Pattern matching` executes code based on different cases.
 We can use the value of variants, records, tuples, or lists to perform these different actions.
 
 **Match on variants**
+
+> makes no sense to use it in smartpy i think
+
 Let's see how pattern matching works if we *match* on variants. We use the same variant as in the example before.
 
 ```
@@ -767,39 +776,31 @@ A boolean has one of two possible values: `true` or `false`.
 
 **Definition**
 ```
-let admin : bool = false
-let guest : bool = true
+admin = sp.bool(False)
+guest = sp.bool(True)
 ```
 
 ### Logical operators
 Here is a list of logical operators that can help your contract make decisions.
 
 **&& (Logical and)**
-`let logical_and: bool = true && true`
-
+`logical_and = True & True`
 **|| (Logical or)**
-`let logical_or: bool = false || true`
-
+`logical_or = False | True`
 **! (Logical not)**
-`let logical_not: bool = not false`
-
+`logical_not = ~ False`
 **= (Equals)**
-`let eq: bool = 2 = 3`
-
+`eq = sp.verify(2 == 2)`
 **<> (Not equals)**
-`let not_eq: bool = 2 <> 3`
-
+`not_eq = sp.verify(2 != 3)`
 **> (Greater than)**
-`let gt: bool = 4 > 3`
-
+`gt = sp.verify(4 > 3)`
 **< (Less than)**
-`let lt: bool = 4 < 3`
-
+`lt = sp.verify(2 < 3)`
 **>= (Greater than or equal to)**
-`let gte: bool = 4 >= 3`
-
+`gte = sp.verify(4 >= 3)`
 **<= (Less than or equal to)**
-`let lte: bool = 4 <= 3`
+`lte = sp.verify(3 <= 3)`
 
 ### Comparing Values
 Only values of the same type can be compared, but not all types are comparable. Comparable types include `int`, `nat`, `string`, `tez`, `timestamp`, `address`.
