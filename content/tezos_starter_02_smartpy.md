@@ -527,7 +527,23 @@ def add(params):
   sp.result(params.a + params.b)
 ```
 
-> Full example:
+
+Test this function in the [LIGOlang IDE](https://ide.ligolang.org/p/tPgv-MsjhEgdx0BnkcVMUw).
+Function name: `add`
+Example parameters: `5, 6`
+
+In this case, our function is called `add`, our parameter consists of a *tuple* (to be more precise a pair) `a` and `b` both from the type `int`. The return type is also an `int` and the return value is the result of `a + b`.
+
+//Gif of testing function as quick reminder how to test a function
+
+As mentioned before, CameLIGO functions only take one parameter, but if we want to build a function with more than one parameter we can enter the arguments in a tuple and pass it as a single parameter.
+
+We will look into tuples in more detail in the upcoming sections.
+
+Now that we know the basics we can finally create a more interesting contract.
+
+**Example Contract: Parameter + Storage** 
+Let's create a simple example contract that takes the storage and adds the value of a parameter the user enters.
 ```
 import smartpy as sp
 
@@ -553,34 +569,6 @@ def test():
     scenario += c1
     scenario += c1.dostuff()
     scenario.verify(c1.data.mycounter == 5)
-```
-
-Test this function in the [LIGOlang IDE](https://ide.ligolang.org/p/tPgv-MsjhEgdx0BnkcVMUw).
-Function name: `add`
-Example parameters: `5, 6`
-
-In this case, our function is called `add`, our parameter consists of a *tuple* (to be more precise a pair) `a` and `b` both from the type `int`. The return type is also an `int` and the return value is the result of `a + b`.
-
-//Gif of testing function as quick reminder how to test a function
-
-As mentioned before, CameLIGO functions only take one parameter, but if we want to build a function with more than one parameter we can enter the arguments in a tuple and pass it as a single parameter.
-
-We will look into tuples in more detail in the upcoming sections.
-
-Now that we know the basics we can finally create a more interesting contract.
-
-**Example Contract: Parameter + Storage** 
-Let's create a simple example contract that takes the storage and adds the value of a parameter the user enters.
-
-```
-type storage = int
-type parameter = int
-type return = operation list * storage
- 
-let add (a, b : int * int) : int = a + b
- 
-let main (p, s : parameter * storage) : return = 
- (([] : operation list), add (p,s))
 ```
 
 Test this contract in the [LIGOlang IDE](https://ide.ligolang.org/p/Vd0E04dzttIvflhtw7nkbw).
