@@ -77,18 +77,14 @@ A *seed phrase* is a group of words used to encrypt your private key, making it 
 In this section, we will show you how you can get tokens for the Tezos testnet, Florence, and how you can make a transaction with them.
 
 ### Get Tezos testnet tokens
-![](https://raw.githubusercontent.com/tacodeDev/dev-starter/main/content/gifs/tezos_1_4_1_2_get_tokens.gif)
+![](https://raw.githubusercontent.com/tacodeDev/dev-starter/main/content/gifs/tezos_1_4_1_get_tokens.gif)
 
-1. Go to https://faucet.tzalpha.net/.
-2. Click the captcha.
-3. Click the Get Testnet button.
-4. Click copy.
-5. Click “Import Account” in the wallet.
-6. Select “Faucet File”.
-7. Paste JSON to “Faucet JASON” field.
-8. Click “Submit”.
-9. Select Florence Testnet.
-10. Now you should see Testnet tokens.
+1. Open the telegram faucet bot [https://t.me/tezos_faucet_bot](https://t.me/tezos_faucet_bot).
+2. Click on the “Get coins” button in the chat interface.
+3. Copy the Tezos address of your account in the Temple wallet.
+4. Send your Tezos address to the Telegram bot.
+5. Change the network from the mainnet to the Florence Testnet.
+6. Now, you should see 100 Testnet tokens in your wallet.
 
 A testnet like Florence is Tezos test network. The mainnet is the main Tezos network. In contrast to the mainnet, transactions on the testnet don’t cost you anything, and Tezos tokens (tez) don’t have any real value. The testnet is a great place to test your contracts before deploying them to the mainnet.
 
