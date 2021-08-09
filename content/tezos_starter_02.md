@@ -644,11 +644,11 @@ type user_majority =
   Minor
 | Adult
 
-let check_majority (a : nat) : daytime =
+let check_majority (a : nat) : user_majority =
   if a < 18n then Minor else Adult
 ```
 
-Test this function in the [LIGOlang IDE](https://ide.ligolang.org/p/6IemBM-M4xWnAkGT6Hxi9w).
+Test this function in the [LIGOlang IDE](https://ide.ligolang.org/p/K_S9GIrDJkg7JO39b68vCA).
 
 We use the conditional construct, if-then-else, to return either our constructor `Minor` or `Adult`. If a boolean condition is true, in this case, `if` the nat `a` is smaller than `18n` then follows a *consequent*, in this case, the constructor `Minor`, `else` follows an alternative, in this case, the *constructor* `Adult`.
 
