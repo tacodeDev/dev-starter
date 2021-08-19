@@ -46,13 +46,6 @@ We need to check if the amount the user sends with their transaction is equal to
     failwith "Sorry, the token you are trying to purchase is out of stock"
   in
 ```
-We need to check if the amount the user sends with their transaction is equal to the token price. If not, the transaction fails with an error message.
-
-```
-  let () = if token_kind.current_stock = 0n then
-    failwith "Sorry, the token you are trying to purchase is out of stock"
-  in
-```
 We also need to check if there are still tokens left. If not, then we also fail the transaction with an error message.
 
 ```
