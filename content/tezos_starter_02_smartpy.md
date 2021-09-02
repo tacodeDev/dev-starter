@@ -492,10 +492,7 @@ The multiplication of a nat and a nat results in an nat.
 `b = sp.nat(5) * sp.nat(5)`
 
 The multiplication of a tez and a nat results in a tez.
-> doesnt work in smartpy
-`c = 5 * sp.mutez(5)`
-> have to do like this, make sure to use sp.tez to not make it smaller. lol
-`c = sp.tez(5) * sp.mutez(5)`
+`c = sp.mul(5, sp.mutez(5))`
 
 ### Division
 The division of an int and int results in an int.
