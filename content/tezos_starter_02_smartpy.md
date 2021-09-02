@@ -289,9 +289,9 @@ A string is a sequence of characters and is defined with the string keyword.
  
 Strings can be *concatenated* (joined) using the ^ operator.
 ```
-name = sp.string = "Alice"
-greeting = sp.string = "Hello"
-full_greeting = sp.string = greeting + name  // "Hello Alice"
+name = sp.string("Alice")
+greeting = sp.string("Hello")
+full_greeting = sp.string(greeting + name)// "Hello Alice"
 ```
 
 Evaluate this value in the [LIGOlang IDE](https://ide.ligolang.org/p/E74sPdvyFgpGTV5qnOfCww).
