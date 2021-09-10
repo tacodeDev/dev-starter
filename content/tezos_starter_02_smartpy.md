@@ -1322,13 +1322,16 @@ You can compile your contract and an expression, dry run your contract and evalu
 ## 2.11 Transactions
 In this section, we will learn how to make a Tezos transaction through a smart contract.
 
-To transfer tez to an account or a smart contract you can use the built-in function `Tezos.transaction`.
+To transfer tez to an account or a smart contract you can use the built-in function `sp.send`.
 
 A transaction operation to a wallet looks like this:
 
 ```
-let payoutOperation : operation = 
-Tezos.transaction unit amount receiver_contract
+sp.send(
+  sp.address("tz...."),
+  sp.tez(5), # or sp.mutez(5000000), both yield to sp.TMutez
+  message = "Error message" #error message if send fails
+)
 ```
 
 The first parameter is either the entrypoint to another contract or if we transfer tez to another wallet its `unit`, like in this example.
@@ -1341,24 +1344,30 @@ Let’s look at a contract example to make this clearer.
 
 **Example contact: Simple Transaction**
 ```
-let ownerAddress : address =
-  ("tz1VburAsF7JxEyJE7K8ZSodVsrSXa57vPw2" : address)
- 
-let main (p, s: unit * unit) : operation list * unit =
- 
-  let receiver : unit contract =
-    match (Tezos.get_contract_opt ownerAddress : unit contract option) with
-    | Some (contract) -> contract
-    | None -> (failwith ("Not a contract") : (unit contract))
-  in
- 
-  let payoutOperation : operation = 
-    Tezos.transaction unit amount receiver 
-  in
-  let operations : operation list = 
-    [payoutOperation] 
-  in
-  ((operations: operation list), s)
+import smartpy as sp
+class Example(sp.Contract):
+    def __init__(self, ownerAddress):
+        self.ownerAddress = ownerAddress
+        self.init()
+
+    @sp.entry_point()
+    def main(self):
+      sp.send(
+        self.ownerAddress,
+        sp.tez(5), # or sp.mutez(5000000), both yield to sp.TMutez
+        message = "Error message" #error message if send fails
+      )
+
+@sp.add_test(name = "Example")
+def test():
+    scenario = sp.test_scenario()
+    owner = sp.test_account("Owner")
+    c1 = Example(owner.address)
+    c1.set_initial_balance(sp.tez(10))
+    scenario += c1
+    scenario.verify(c1.balance == sp.tez(10))
+    c1.main().run()
+    scenario.verify(c1.balance == sp.tez(5))
 ```
 Test this contract in the [LIGOlang IDE](https://ide.ligolang.org/p/RNeHMuOL7Nsk4iGBqsbKAA).
 Storage: `unit`
