@@ -957,26 +957,41 @@ type name = (string * string)
 ```
 **Definition**
 ```
-let user = ("Alice", "Doe" : string * string)
+user  = ("Alice, "Doe")
+user2  = sp.pair("Alice, "Doe")
 ```
 **Access** 
 You can access each component by their index.
 
 ```
-let firstName: string = user.0
-let lastName: string = user.1
+firstName = sp.fst(user)
+lastName = sp.snd(user)
 ```
  
 **Example Contract: Full Name**
 A simple contract that concatenated two strings.
 
 ```
-type storage = string
-type parameter = (string * string)
-type return = operation list * storage
- 
-let main (p, s : parameter * storage) : return = 
- (([] : operation list), p.0 ^ " " ^ p.1)
+import smartpy as sp
+class Example(sp.Contract):
+    def __init__(self):
+        self.init_type(
+          sp.TString
+        )
+        self.init("")
+
+
+    @sp.entry_point()
+    def main(self, params):
+        sp.set_type(params, sp.TPair(sp.TString, sp.TString))
+        self.data = sp.fst(params) + " " + sp.snd(params)
+
+@sp.add_test(name = "Example")
+def test():
+    scenario = sp.test_scenario()
+    c1 = Example()
+    scenario += c1
+    c1.main(sp.pair("Alice", "Doe")).run()
 ```
 
 Test this contract in the [LIGOlang IDE](https://ide.ligolang.org/p/fMmRoHkAHZtJUw7ZtgKq4Q).
