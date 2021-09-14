@@ -1142,6 +1142,11 @@ We won’t go into too many details of sets, but here is a brief overview.
 * Sets have a variable length.
 * Sets only store values.
 
+```
+set1 = sp.set([1, 2, 3])
+set1.add(4)
+```
+
 Sets are unique, meaning that values can not be repeated in a set and sets have no specific order which distinguishes them from lists.
 
 We will not go into more detail explaining sets here, but you can learn more about them in the [LIGO documentation](https://ligolang.org/docs/language-basics/sets-lists-tuples#sets).
