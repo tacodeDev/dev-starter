@@ -5,10 +5,7 @@ class FA2(FA2imp.FA2):
     pass
 
 class TacoShop_config:
-    def __init__(self,
-        ownerAddress = sp.address("tz1rknyqqokrhcpeg8qtsu1vp1kzu6tx42p2"),
-        tokenAddress = sp.address("tz1rknyqqokrhcpeg8qtsu1vp1kzu6tx42p2")
-    ):
+    def __init__(self, ownerAddress, tokenAddress):
         self.ownerAddress = ownerAddress
         self.tokenAddress = tokenAddress
 
