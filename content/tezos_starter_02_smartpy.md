@@ -1164,39 +1164,95 @@ A record is made of a set of fields, which consist of a field name and a field t
 
 **Declaration**
 ```
-type user = {
-  age: nat;
-  username: string;
-}
+user_type = sp.TRecord(
+  age= sp.TNat,
+  username= sp.TString
+)
 ```
  
 In this example the record user has two fields. The field name `age`, the corresponding field type is `nat`, as well as`username`, which is a `string`.
 
 **Definition**
 ```
-let alice : user = {
-  age = 18n;
-  username= "Alice";
-}
+import smartpy as sp
+
+user_type = sp.TRecord(
+    age= sp.TNat,
+    username= sp.TString
+)
+
+class Example(sp.Contract):
+    def __init__(self):
+        self.init_type(sp.TRecord(user = user_type))
+        alice = sp.set_type_expr(
+            sp.record(
+                age = sp.nat(18),
+                username = sp.string("Alice")
+            ),
+            user_type
+        )
+        self.init(user = alice)
+
+
+    @sp.entry_point()
+    def main(self):
+        bob = sp.set_type_expr(
+            sp.record(
+                age = sp.nat(48),
+                username = sp.string("bob")
+            ),
+            user_type
+        )
+        self.data.user = bob
+
+@sp.add_test(name = "Example")
+def test():
+    scenario = sp.test_scenario()
+    c1 = Example()
+    scenario += c1
+    c1.main().run()
 ```
  
 **Access**
 You can access the value of a given field by specifying the name of the record followed by a dot (period) and the field name.
 ```
-let name: string = alice.username
+name = alice.username
 ```
 
 **Functional Update**
 LIGO offers a way to only update the fields that are modified, instead of having to replace the entire record.
 
 ```
-type user = {
-  age: nat;
-  username: string;
-}
+import smartpy as sp
 
-let user_nineteen (p : user) : user =
-  {p with age = 19n}
+user_type = sp.TRecord(
+    age= sp.TNat,
+    username= sp.TString
+)
+
+class Example(sp.Contract):
+    def __init__(self):
+        self.init_type(sp.TRecord(user = user_type))
+        alice = sp.set_type_expr(
+            sp.record(
+                age = sp.nat(18),
+                username = sp.string("Alice")
+            ),
+            user_type
+        )
+        self.init(user = alice)
+
+
+    @sp.entry_point()
+    def main(self):
+        self.data.user.age = 19
+
+@sp.add_test(name = "Example")
+def test():
+    scenario = sp.test_scenario()
+    c1 = Example()
+    scenario += c1
+    c1.main().run()
 ```
 
 Test this function in the [LIGOlang IDE](https://ide.ligolang.org/p/53ZFpy_gmiDrX2wOHHK-qw).
@@ -1208,28 +1264,43 @@ You can use the `with` keyword and the field name to update only the value inste
 In this contract we are storing a simple user record where we can update name and admin status.
 
 ```
-type user = {
- id       : nat;
- is_admin : bool;
- name     : string
-}
-type storage = user
-type parameter =
-  Name of string
-| Admin of bool
-type return = operation list * storage
- 
-let update_name (n, s : string * storage) : storage =
- {s with name = n}
- 
-let update_admin (n, s : bool * storage) : storage =
- {s with is_admin = n}
- 
-let main (p, s : parameter * storage) : return =
- ([] : operation list), 
- (match p with
-   Name (n)  -> update_name (n, s)
- | Admin (n) -> update_admin (n, s))
+import smartpy as sp
+
+user_type = sp.TRecord(
+    age= sp.TNat,
+    username= sp.TString,
+    admin = sp.TBool
+)
+
+class Example(sp.Contract):
+    def __init__(self):
+        self.init_type(sp.TRecord(user = user_type))
+        alice = sp.set_type_expr(
+            sp.record(
+                age = sp.nat(18),
+                username = sp.string("Alice"),
+                admin = False
+            ),
+            user_type
+        )
+        self.init(user = alice)
+
+
+    @sp.entry_point()
+    def update_name(self, param):
+        self.data.user.username = param
+
+    @sp.entry_point()
+    def update_admin(self, param):
+        self.data.user.admin = param
+
+@sp.add_test(name = "Example")
+def test():
+    scenario = sp.test_scenario()
+    c1 = Example()
+    scenario += c1
+    c1.update_name("Alicia").run()
+    c1.update_admin(True).run()
 ```
 
 Test this contract in the [LIGOlang IDE](https://ide.ligolang.org/p/dx2wF9i5LdjvBlGwZsf1gg).
