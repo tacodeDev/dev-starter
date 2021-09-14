@@ -903,12 +903,30 @@ If there is the possibility that you could return nothing you need to specify th
 Since CameLIGO is a functional language we can use *recursive functions* instead of loops to iterate over values. LIGO functions are not recursive by default, you need to indicate them with the `rec` keyword.
 
 ```
-let rec iter (x,y : nat * nat) : nat =
-  if y = 0n then x else iter (y, x mod y)
- 
-let gcd (x, y : nat * nat) : nat =
-  let (x, y) = if x < y then y,x else x,y in
-  iter (x, y)
+import smartpy as sp
+class Example(sp.Contract):
+    def __init__(self):
+        self.init_type(
+            sp.TRecord(
+                result = sp.TNat
+            )
+        )
+        self.init(result=0)
+
+
+    @sp.entry_point()
+    def main(self, params):
+      result = 0
+      sp.for x in params:
+        self.data.result += x
+
+
+@sp.add_test(name = "Example")
+def test():
+    scenario = sp.test_scenario()
+    c1 = Example()
+    scenario += c1
+    c1.main([1,2,3]).run()
 ```
 
 Test this function in the [LIGOlang IDE](https://ide.ligolang.org/p/w3tBKN6FJ9RGtCCsfqzjwg).
