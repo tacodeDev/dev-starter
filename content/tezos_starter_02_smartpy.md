@@ -1325,45 +1325,53 @@ type usernames = (int, string) map
 
 **Definition**
 ```
-let my_usernames : usernames =
-  Map.literal [
-    (0, "Alice");
-    (1, "Bob");
-    (2, "Celia")
-  ]
+my_usernames = {
+    0: "Alice",
+    1: "Bob",
+    2: "Celia",
+}
+my_usernames2 = sp.map(
+  {
+      0: "Alice",
+      1: "Bob",
+      2: "Celia",
+  }
+)
 ```
 
 Here is how you can create an empty map.
-`let empty : my_usernames = Map.empty`
+```
+empty = {}
+empty2 = sp.map()
+```
 
 **Access**
 Access a value in a map with the function `Map.find_opt` and a key.
 ```
-  let my_username : string option =
-   Map.find_opt 1 my_usernames
+my_usernames.get(1, message="No value for this key")
 ```
 
 **Update**
 To update a map you need a value and the function Map.update.
 ```
-  let update (u : usernames) : usernames =
-   Map.update (2) (Some("Cillian")) u
+my_map = sp.update_map(my_map, 0, sp.some("Cillian"))
 ```
 
 In this case we are updating our value “Celia” with a new name “Cillian” we are using an optional value indicated by the keyword `Some` here to account for the possibility that we could have an empty value.
  
 **Add**
 To add a new element to a map we can use the function `Map.add` and provide a key and a value. 
+
+> is the same as update
+
 ```
-  let add (u : usernames) : usernames =
-   Map.add (3) ("Dan") u
+my_map = sp.update_map(my_map, 0, sp.some("Cillian"))
 ```
 
 **Remove**
 To remove an element from a map we use the keyword `Map.remove` and need the key of the element.
 ```
-  let remove (u : usernames) : usernames =
-   Map.remove (2) u
+my_map = sp.update_map(my_map, 0, sp.none)
 ```
 
 **Iterated Operation**
@@ -1379,9 +1387,10 @@ In this example we test a map for the occurrence of the name `"Bob"` in the valu
 **Map Operation**
 Similar to the map operation for lists we can use a map operation for maps with the function `Map.map`.
 ```
-  let map_op (u : usernames) : usernames =
-   let add_user = fun (i,j : int * string) -> "user_" ^ j 
-   in Map.map add_user u
+my_map = { 1: "aa", 2: "bb" }
+sp.for x in my_map.keys():
+  self.data.result += x
+  # do your my_map[x] stuff
 ```
 
 In this example we add the string "user_" to every username.
@@ -1394,30 +1403,62 @@ Example storage: `Map.literal [(0, "Alice"); (1, "Bob"); (2, "Celia")]`
 In this contract we are building another system to manage our users, but this time we are able to handle multiple users and can add, update and remove them.
 
 ```
-type user = { name : string ; is_admin : bool }
-type id = nat
-type user_storage = (id, user) map
-type parameter =
-  Add of id * user
-| Update of id * user
-| Remove of id
-type return = operation list * user_storage
- 
-let add_entry (i, u, s : id * user * user_storage) : user_storage =
-  Map.add i u s
- 
-let update_entry (i, u, s : id * user * user_storage) : user_storage =
-  Map.update i (Some (u)) s
- 
-let remove_entry (i, s : id * user_storage) : user_storage =
-  Map.remove i s
- 
-let main (p, s : parameter * user_storage) : return =
- ([] : operation list),
- (match p with
-   Add (i, u)  -> add_entry (i, u, s)
- | Update (i, u) -> update_entry (i, u, s)
- | Remove (i) -> remove_entry (i, s))
+import smartpy as sp
+
+user_type = sp.TRecord( name = sp.TString, is_admin = sp.TBool )
+id_type  = sp.TNat
+user_storage_type = sp.TMap(id_type, user_type)
+
+class UserManagement(sp.Contract):
+    def __init__(self):
+        self.init_type(user_storage_type)
+        self.init({})
+
+    @sp.entry_point()
+    def add_update(self, params):
+        sp.set_type(params, sp.TPair(id_type, user_type))
+        id = sp.fst(params)
+        user = sp.snd(params)
+        self.data = sp.update_map(self.data, id, sp.some(user))
+
+    @sp.entry_point()
+    def remove(self, id):
+        sp.set_type(id, id_type)
+        del self.data[id]
+
+@sp.add_test(name = "UserManagement")
+def test():
+    scenario = sp.test_scenario()
+    c1 = UserManagement()
+    scenario += c1
+    c1.add_update(
+        sp.pair(
+            0,
+            sp.record(
+                name = "Alice",
+                is_admin = True
+            )
+        )
+    ).run()
+    c1.add_update(
+        sp.pair(
+            1,
+            sp.record(
+                name = "Bob",
+                is_admin = False
+            )
+        )
+    ).run()
+    c1.add_update(
+        sp.pair(
+            0,
+            sp.record(
+                name = "Alicia",
+                is_admin = False
+            )
+        )
+    ).run()
+    c1.remove(1).run()
 ```
  
 In this contract we create a record called `user` with a field for the `name`, which is a `string` and a field for the admin status, which is a boolean.
@@ -1426,14 +1467,23 @@ We create a type `id` which is a `nat` and map it to our user record.
 We create the entrypoints to add a new entry, to update an entry and to remove an entry. In the case of `add_entry` and `update_entry` we have a tuple with three components as parameter, so we can pass the key, the new record and the storage.
 
 Test this contract in the [LIGOlang IDE](https://ide.ligolang.org/p/jwCaEr58GCxuLcrDkkqHlw).
-Example parameters: `Add(3n,{ name="Dan"; is_admin=true})`
+Example parameters:
+```
+sp.pair(
+    0,
+    sp.record(
+        name = "Alicia",
+        is_admin = False
+    )
+)
+```
 Example storage: 
 ```
-Map.literal [ 
- 0n, { name="Alice"; is_admin=false }; 
- 1n, { name="Bob"; is_admin=false }; 
- 2n, { name="Celia"; is_admin=false };
-]
+sp.map({
+ sp.nat(0): sp.record(name="Alice", is_admin=False),
+ sp.nat(1); sp.record(name="Bob", is_admin=False),
+ sp.nat(2); sp.record(name="Celia", is_admin=false),
+})
 ```
  
 **Big Maps**
