@@ -1012,38 +1012,50 @@ Now we are going to look into *Lists*, you know them from the list of operations
 The special thing about Lists is that you can not access elements directly, only either the first item or the rest. But there are various ways to iterate over Lists, we will look into them soon. Lists are also ordered and elements in them can be repeated.
 
 **Declaration**
-`type my_list = int list`
+```
+my_list_type = sp.TList(sp.TInt)
+```
 
 **Definition**
 ```
-let empty_list : int list = []
-let my_list : int list = [1; 2; 2]
+empty_list = sp.list([], t = sp.TNat)
+my_list = sp.list([1,2,3], t = sp.TNat)
 ```
 
 **Access**
 The first element in a List is called the head, and the elements after it the tail. You can access them with the functions `List.head_opt` and `List.tail_opt`.
 ```
-let head : int option = List.head_opt my_list // 1
-let tail : int list option = List.tail_opt my_list // [2;2]
+with sp.match_cons(my_list) as x1:
+    self.data.head = x1.head
+    self.data.tail = x1.tail
+sp.else:
+    self.data.head = "abc"
 ```
 
-**Add**
-You can add a new element before the head of the List with the cons operator `::`.
+**Push**
+You can push a new element after the tail of the List with the push command.
 ```
-let larger_list : int list = 5 :: my_list
+self.data.my_list = [1, 2, 3] # [1, 2, 3]
+self.data.my_list.push(4)     # [1, 2, 3, 4]
 ```
 
 Now we learn how to iterate over data structures.
 
 **Functional Iterators**
+
+> dont exist
+
 As you know we don’t use loops in cameLIGO but we can use functional iterators. A functional iterator is a function that calls a given function over every element of a data structure.
 
 **Iterated Operation**
+
+> dont exist
+
 The first kind of functional iterator we are going to look at is called an *iterated operation*. The iterated operation doesn’t return any value, just a unit.
 
 You can use it to check for values inside a list and if one value doesn’t meet the requirements fail with an error.
 
-Use `List.iter` to to implement an iterated operation.
+Use `List.iter` to to implement an iteratd operation.
 
 ```
 let majority_check (l, i : int list * int) : unit =
@@ -1061,6 +1073,8 @@ With the functional operator *map operation* we can apply a function to every el
 
 Use `List.map` to implement a mapped operation.
 
+> dont exist
+
 ```
 let list_increment (l : int list) : int list =
   let increment (i : int) : int = i + 1
@@ -1077,6 +1091,9 @@ The function `list_increment`, the user can input a list and increase the value 
 We use the `List.map` to apply increment to each element of our list `l`.
 
 **Folded Operation**
+
+> dont exist
+
 The third and last kind of functional operator is called a *folded operation*. You can learn more about folded operations in the [LIGO documentation](https://ligolang.org/docs/language-basics/sets-lists-tuples#folded-operation-over-lists).
 
 **Example contract: User Credit List**
