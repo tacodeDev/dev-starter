@@ -854,8 +854,44 @@ The *option* type is a predefined variant type that is used to express whether t
 Let's look at an example where this might make sense, a function that performs a division between two numbers. As you know in ordinary arithmetic the division by zero is undefined. Our contract would fail if we would perform such an operation. This is a great use case to use `option`.
 
 ```
-let div (a, b : nat * nat) : nat option =
-  if b = 0n then (None : nat option) else Some (a/b)
+import smartpy as sp
+class Example(sp.Contract):
+    def __init__(self):
+        self.init_type(
+            sp.TRecord(
+                first = sp.TOption(sp.TNat),
+                second = sp.TOption(sp.TNat)
+            )
+        )
+        self.init(
+            sp.record(
+                first=sp.none,
+                second=sp.none
+            )
+        )
+
+    @sp.global_lambda
+    def div(params):
+        sp.set_type(params, sp.TRecord(
+            a = sp.TNat,
+            b = sp.TNat
+        ))
+        sp.if params.b == 0:
+            sp.result(sp.none)
+        sp.else:
+            sp.result(sp.some(params.a/params.b))
+
+    @sp.entry_point()
+    def main(self):
+        self.data.first = self.div(sp.record(a=1,b=0))
+        self.data.second = self.div(sp.record(a=2,b=1))
+
+@sp.add_test(name = "Example")
+def test():
+    scenario = sp.test_scenario()
+    c1 = Example()
+    scenario += c1
+    c1.main().run()
 ```
 
 Test this function in the [LIGOlang IDE](https://ide.ligolang.org/p/rks7H4MldgARld46kzmq1Q).
