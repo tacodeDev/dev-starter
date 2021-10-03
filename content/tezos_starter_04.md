@@ -147,7 +147,7 @@ In this section we will create a very simple contract that can transfer an FA2 t
 ### FA2 Token Standard
 You might have heard of the ERC-20 token standard on Ethereum. FA2 is a token standard on Tezos. A token standard helps to standardize the important features of tokens, like functionality and permissions. This allows us to create common interface standards so that developers can easily build applications that interact with tokens like wallets, exchanges, or games. Have a look a the [TZIP-12](https://gitlab.com/tezos/tzip/-/blob/master/proposals/tzip-12/tzip-12.md) which is a template for the FA2-standard.
 
-FA2 entrypoints
+### FA2 entrypoints
 An FA2 compliant token must have the following Michelson entrypoints: transfer, balance_of, update_operators.
 
 **Transfer**
