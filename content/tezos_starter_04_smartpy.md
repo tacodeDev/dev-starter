@@ -729,6 +729,29 @@ We begin the test in the same way as in our TokenTransfer contract. We create th
     )
 ```
 
+TODO: compilation target and deployment explain
+- after RUN click on TESTS latch and select your compilation target (taco_shop)
+- in the right panel the "Contract" is now compiled with the correct initial values.
+- click on "Deploy Michelson Code" to deploy a compiled version for the testnet
+
+```
+if "templates" not in __name__:
+    @sp.add_test(name = "TokenShop")
+    def test():
+        alice = sp.test_account("Alice")
+        bob = sp.test_account("Bob")
+        admin = sp.test_account("Administrator")
+    #... more test code here
+
+    # after test we need to add a compilation target for the deplpyment to test or mainnet
+    sp.add_compilation_target("taco_shop", TokenShop(
+        config = TokenShop_config(
+            ownerAddress = sp.address("tz1Wxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"),
+            tokenAddress = sp.address("KT1Axxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+        )
+    ))
+```
+
 
 Finally, we test the buy_token entry point in a similar way as we did in our TokenShop contract.
 We try to buy the token, which should not raise any errors. Then we try to buy the token with an ID that doesn't exist, for a lower price and for a higher price.
