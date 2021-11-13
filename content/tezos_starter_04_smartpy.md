@@ -565,34 +565,26 @@ class FA2(FA2imp.FA2):
 We import the FA2 implementation as we have done in the token transfer contract.
 
 class TokenShop_config:
-    def __init__(self, ownerAddress, tokenAddress):
+    def __init__(self, ownerAddress):
         self.ownerAddress = ownerAddress
-        self.tokenAddress = tokenAddress
 ```
 
 We add a token configuration class as we have done in our TokenShop contract before, but we add the token address of our FA2 token in here too.
 
 ```
 class TokenShop(sp.Contract):
-    def __init__(self, config):
+    def __init__(self, config, init_data):
         self.init_type(
             sp.TMap(
                 sp.TNat,
                 sp.TRecord(
                     current_stock = sp.TNat,
+                    token_address = sp.TAddress,
                     price = sp.TMutez
                 )
             )
         )
-        self.init(
-            sp.map({
-                sp.nat(0) :
-                sp.record(
-                    current_stock = sp.nat(100),
-                    price = sp.tez(1)
-                )
-            })
-        )
+        self.init(init_data);
         self.config = config
 ```
 
@@ -619,11 +611,11 @@ We initialise our contract as we did in our TokenShop contract and set the stock
         sp.send(self.config.ownerAddress, sp.amount, message = "Not a contract")
 ```
 
- 
+
 We take the start of our `buy_token` entry point from our TokenShop contract, we don’t change anything here.
 
  ```
-    txArgsType = sp.TList(
+        xArgsType = sp.TList(
             sp.TRecord(
                 from_ = sp.TAddress,
                 txs = sp.TList(
@@ -635,13 +627,13 @@ We take the start of our `buy_token` entry point from our TokenShop contract, we
                 )
             ).layout(("from_", "txs"))
         )
- 
+
         contract = sp.contract(
             txArgsType,
-            self.config.tokenAddress,
+            token_kind.token_address,
             "transfer"
         ).open_some("INTERFACE ERROR")
- 
+
         txArgs = sp.list([sp.record(
             from_ = sp.self_address,
             txs = sp.list([
@@ -663,70 +655,83 @@ We take the start of our `buy_token` entry point from our TokenShop contract, we
 The bottom part of our `buy_token` entry point stays the same as in our TokenTransfer contract, the only thing that we change is how we get the `tokenAddress`. In this contract, it is provided by the config class, instead of coming from the parameter.
 
 ```
-@sp.add_test(name = "TokenShop")
-def test():
-    alice = sp.test_account("Alice")
-    bob = sp.test_account("Bob")
-    admin = sp.test_account("Administrator")
- 
-    scenario  = sp.test_scenario()
- 
-    token = FA2(
-        FA2imp.FA2_config(debug_mode = True),
-        metadata = sp.utils.metadata_of_url("https://example.com"),
-        admin = admin.address
-    )
-    scenario += token
- 
-    shop = TokenShop(
-        config = TokenShop_config(
-            ownerAddress = bob.address,
-            tokenAddress = token.address
+if "templates" not in __name__:
+    @sp.add_test(name = "TokenShop")
+    def test():
+        alice = sp.test_account("Alice")
+        bob = sp.test_account("Bob")
+        admin = sp.test_account("Administrator")
+
+        scenario  = sp.test_scenario()
+
+        token = FA2(
+            FA2imp.FA2_config(
+                debug_mode = True,
+                non_fungible = True
+            ),
+            metadata = sp.utils.metadata_of_url("https://example.com"),
+            admin = admin.address
         )
-    )
-    scenario += shop
- 
-    tokenMeta = FA2.make_metadata(
-        name = "FreshTacoToken",
-        decimals = 0,
-        symbol= "FTT0"
-    )
- 
-    token.mint(
-        address = shop.address,
-        amount = 100,
-        metadata = tokenMeta,
-        token_id = 0
-    ).run(
-        sender = admin
-    )
+        scenario += token
+
+        shop = TokenShop(
+            config = TokenShop_config(
+                ownerAddress = bob.address
+            ),
+            init_data = sp.map({
+                sp.nat(0) :
+                sp.record(
+                    current_stock = sp.nat(100),
+                    token_address = token.address,
+                    price = sp.tez(1)
+                )
+            })
+        )
+        scenario += shop
+
+        tokenMeta = FA2.make_metadata(
+            name = "FreshTacoToken",
+            decimals = 0,
+            symbol= "FTT0"
+        )
+
+        token.mint(
+            address = shop.address,
+            amount = 1,
+            metadata = tokenMeta,
+            token_id = 0
+        ).run(
+            sender = admin
+        )
+
 ```
 
 We begin the test in the same way as in our TokenTransfer contract. We create three test accounts and create a token contract from our FA2 implementation. We will need some metadata for our token. To create our token we will use the mint method of the token that we just created.
 
 ```
-    # buy token
-    shop.buy_token(0).run(
-        sender = alice,
-        amount = sp.tez(1),
-    )
-    # buy token with wrong id
-    shop.buy_token(1).run(
-        sender = alice,
-        amount = sp.tez(1),
-        valid = False
-    )
-    # buy token with wrong price
-    shop.buy_token(0).run(
-        sender = alice,
-        amount = sp.tez(0),
-        valid = False
-    )
-    # buy to a higher price than specified
-    shop.buy_token(0).run(
-        sender = alice,
-        amount = sp.tez(3),
-    )
+        # buy token with wrong id
+        shop.buy_token(1).run(
+            sender = alice,
+            amount = sp.tez(1),
+            valid = False
+        )
+        # buy token with wrong price
+        shop.buy_token(0).run(
+            sender = alice,
+            amount = sp.tez(0),
+            valid = False
+        )
+        # buy token
+        shop.buy_token(0).run(
+            sender = alice,
+            amount = sp.tez(1),
+        )
+        # buy token again
+        shop.buy_token(0).run(
+            sender = alice,
+            amount = sp.tez(1),
+            valid = False
+        )
 ```
 
 TODO: compilation target and deployment explain
@@ -746,9 +751,16 @@ if "templates" not in __name__:
     # after test we need to add a compilation target for the deplpyment to test or mainnet
     sp.add_compilation_target("taco_shop", TokenShop(
         config = TokenShop_config(
-            ownerAddress = sp.address("tz1Wxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"),
-            tokenAddress = sp.address("KT1Axxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-        )
+            ownerAddress = sp.address("tz1Te9TEmMpqQxe13cvsT2ipfLGHm9uhCadM")
+        ),
+        init_data = sp.map({
+            sp.nat(0) :
+            sp.record(
+                current_stock = sp.nat(1),
+                token_address = sp.address("KT1Sh2okif2FBZiTAAmhgpWvzDBvqRwvQiGo"),
+                price = sp.tez(1)
+            )
+        })
     ))
 ```
 
