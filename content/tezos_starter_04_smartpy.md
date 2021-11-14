@@ -676,21 +676,12 @@ We begin the test in the same way as in our TokenTransfer contract. We create th
         )
 ```
 
-TODO: compilation target and deployment explain
-- after RUN click on TESTS latch and select your compilation target (taco_shop)
-- in the right panel the "Contract" is now compiled with the correct initial values.
-- click on "Deploy Michelson Code" to deploy a compiled version for the testnet
+
+Finally, we test the buy_token entry point in a similar way as we did in our TokenShop contract.
+We try to buy the token, which should not raise any errors. Then we try to buy the token with an ID that doesn't exist, for a lower price and for a higher price.
 
 ```
-if "templates" not in __name__:
-    @sp.add_test(name = "TokenShop")
-    def test():
-        alice = sp.test_account("Alice")
-        bob = sp.test_account("Bob")
-        admin = sp.test_account("Administrator")
-    #... more test code here
-
-    # after test we need to add a compilation target for the deplpyment to test or mainnet
+    # after the tests we need to add a compilation target for the deplpyment to test or mainnet
     sp.add_compilation_target("taco_shop", TokenShop(
         config = TokenShop_config(
             ownerAddress = sp.address("tz1Te9TEmMpqQxe13cvsT2ipfLGHm9uhCadM")
@@ -706,20 +697,49 @@ if "templates" not in __name__:
     ))
 ```
 
+Inside the compilation target we can add values for the initial storage and the config value.
+In our case, we want to add the address of the owner of the shop in the config. In our initial storage,
+we need to specify the available stock, the address of the token that we want to sell, and the price of the token.
 
-Finally, we test the buy_token entry point in a similar way as we did in our TokenShop contract.
-We try to buy the token, which should not raise any errors. Then we try to buy the token with an ID that doesn't exist, for a lower price and for a higher price.
+Test this contract in the [SmartPy IDE](https://smartpy.io/ide?code=eJy9WFtv2zYUfvevINQXCfPUOHtqgBRzsqQb1qSo42LAikCgJcrmLJEqSTlxhv33Hoq6UBLtJBg2PcSmzuHh4Xdun0PzgguFZI6FKvYISySLyfX8lOYFOofvIeUhrXQiRfIiw4r4HsjDYu8Fk0mcYSkRrH2zJ4SP4GyC4ClA0igs@Zawuw0vopizlK6NRkJSFEWUURVFviRZOkX8gRExTxJBpKzt6EcLQ1sGvtnL0Tk@eH7JmRI4VsHB04wzU1S9TLDCwyMrgdoXxG_fV7IiXN7gov@yEdxiNXUKFiTmIhlv0k9cCkGYiqTi8dYA7zakH6VvGeEWCa1cA@HeUAgak1rxplTkaaQVTNyrYIyH36HVFxo04RjzZVJJf4Yz4WJiHxWcMuUHbSxW5T6qblIHw9xqS1kCQUrIox2LIpSkDsRQbdpgFdjqOyJouh9ETTup_daeKkyZHBkL@vjlgChea@S8L2zLIOOQ1kU8Nd56Dpw6kxrw9sg1UePTnvW4CHHOS6bQ@3PLcFjF86Crd1yIPeC5IWYP2vMSYQErsadsDS9RUYp4gyVB8AdhlNA0JTr_TKa4rnXAQ8upfgq_1zsYVv7JYUxf4yiViJdKI1_Zd7rYgP11CPR9OKwvvLKDPxD_2Pg@C4J@DrLEt1K915GmXbSm9iVvuQKE47oX6Z7ZYvc4F2u5hKSuS_MjlaoH75GukQqeR8_UvnqUhyy_4IQuxM@d008GmjzXv@Cp07pVdOkFYYYhI5Tve@CDN0X605wAC8@Y8IIgGG7uvbCsVJjprQCMF9hNrv3axMl41qx62HRh693OyqZef@4peWCOSag1K39DXoC25DkM1t9ul1eL6_nlFbpaLD4txtli_Mp0OL_CFzEOnZUYOlWdbrSJYQwN8XMb7i7amofaEs4QW5lw4lSw428q7WgQ761g3fdqsgF00JYqsPong3KuZ9@oIzVRtvKBphCqmu5IDzGoYcqAPTCckyg6aycbgAu0CDDUAl3tLQHxukFXKVjTDGftNNaiCMexBsP35lrgdddb8ZVL7YKvLCWc5OCay5oWQHwFVlzYmSRjwrCgHFm7mne@nXFVTz6v2F0PsI7q1XRunCcJWZXrKOeJvuhSlGScBYyzKC3Zmq6yRqlPQoZzQ2Hd3I3TpaKZDJt3EU@jUmS@t1GqkGdv35JHDMEjUMC5N7DT4FV9hnV1uKZJg9IP9ei1AIT4ao9bsjlMJ0ODhqR3jNKA0UK8Rw45kGj5l4EiByL6t4twmumLzlyyI_Xt4qKmRF_GRqt16Go77WPxUV2Q4@If8NF_nITUCpCOyCBxb0gFkP6pkuMtiZpc6d@5qdu5UA9cbE9mXt_jhMQ0x5kcNzK5z1c8M1thm2uYGCRyTXsHKdgyd_DbDVXbIGcHy6C9Zl_D7r3WlBElG9Jh3b6bSnD5_0Zz9LoNPFC1QQ@CAy2jSa8Swo7Iz44ek41Iqz0FTCL05TvYo@9xDREgjhQ44GCVXod8PPmXPg6nxyt8_K9csmFzg4PXmP4vxx9DxCTWGzRP_iqlqmg_9OeCwpClnCGFBfxIQnp@iZr9A28THSXD8JPKdG@7SdZT2LIUGUsNW9S3BdLn6NYv7NSDLi3bioUTnmZL8m55ld8U3z4_ktlP8U4uT2mRfvzwa_6u3Fzi5Maa1RZQzzbxQw38SPN@ReN2_AuhvdTvy9nd5pRvaXp6ffEnXc7n@WZd_LF7@uVi923xsPtMP_DhVNXP8a7erepuDgT8OwCt300-).
 
-Test this contract in the [SmartPy IDE](https://smartpy.io/ide?code=eJytVkuP2zYQvvtXEDpJqMN4e1xgg7jBLlAguwUc9xQsBFqibcIiKZBUsmrR_94ZUQ_qYThBq4MtaobDb2a@GY6QpTaOWMmMK2vCLLHlavW0_VXIkjzAggpNRaOUOi7LgjkeRyCnZR0lq6xg1hJYxn4Lhb_kfkXgKUGyahX2@sLVl7Mu00yrozh5jZwfSZoKJVyaxpYXxzXR3xU32zw33No1cbitXbVW8UFVGmoC0HA5VgyNgGK4nMGLwd9PWjnDMpdcBel9mAJqVFxd8rj_3shKun9m5fhjJ3hhbr0o2PFMm3y@CZ@sMoYrl1qns4vP0bKhJgtGZLxVeq4c_2umlayWV8ncvZlnEhz7e8kBxVy8Scj9ksz8nG9o6m6zSW76B87Fd8kN__656qDPKpjyL6tG@hHsAh5Tp6UWysVJz4lDVacNl1pSNO_pRagcyJLzt5AeJbW85cZUbd2lLwnVv3EjjvUk3AgyZ44hUseEsjNjkxhJoDg7YXSiP9VFQYkQ1CX66NFGC6EYTGJQ@yNP3M1Pu4m4pEzqSjny4SEwTJucXYX6RRtTQzzP3O8hta4IM7AytVAn@EjKymRnZjmBH8JILo5HjrTxbFhy6wrCANSYeR8GEv8vQIUlunIY@cb@IsQu2F@ngX6l07JghzD5E_G7vmqSZMxBlccB1em42fbZWodOvmgHEc7anggdf2DK29ac7B5I3baXz8LOO8TVTnY0Wqbtzg7DTMm92avGf@SQIc83jxpUMawiv9VY8WnZ3WsuKia0YMAMF8cRwIjWBP_9GbCIvI0oSW51rsBOEzvcDPGJkrCj9a9dxjy4bjVhf5_B9bzTtBwJr8uxVgQWlYXCC8hMdQmOWS1hRvj9Zf@4e9p@eiSPu90fuzl1PLQCE_v1yrUQkARBpWwJSE8Sb@pnr5yeG1gf3CxnO2DFZlkj5IIvvhv5fA3y9joq1C6wIV4fsvBovH7xQp@0qC7VISlWeI1B7GCCgwgpJpvS7qceSA3eaI2wvbZYEVyr1qUsy9C9ONqiIPJwD_qwpPKbPrQKLJdCLVpBAWTLMKdNxwybccWM0CTY0X2LWx3faB@aibP3cBg92_EyzvmhOqVS5@jD3lQ8CJHkjmGb9adUThSWdt9SfUwrU8TR2bnS3r9_z98YzLwcqkFGgY3OseafsmDsTMau_NJefK2HEGwE1I@bYbn64WM6KY85Oxl6IQF0uSQWZt4RzAHqHDCiDKL9zJtY4cgv2YWnXawGZB2hnsD8ec8y3TgRDZByngnJCjuuHlvLgy5w336_iVoww7lU4sAVhLzzBvHN3e7rD2bFxWT3zgzSsKr9@dRUajjTd4QuzyHCBsMwAm6ubixGo07YJPy4ug6TMDZ69x@N4vMNdNG9J4g@90f9CysivHs-).
+#### Deploy and test your contract 
+Before you can deploy your contract, you need to know the address of the token you want to sell.
 
-Now you can deploy the contract.
+**Create an NFT to test**
+To create a simple NFT on the granda testnet we will just fork a token contract.
+1. Open this contract (https://better-call.dev/granadanet/KT1DRbT9JvFurMwx8dsMbEWattuWGDZxaA9y/fork) in "better-call.dev".
+2. Click on Fork.
+3. Add your address as the administrator.
+4. Select "GRANADANET" as the network.
+5. Click execute at the bottom and confirm the transaction with your temple wallet.
+6. After your contract is deployed, save the address of the contract.
 
-**Send your contract the tokens**
-Go to your wallet and send all tokens to the address of the contract. Remember you need to send a range of IDs starting by 0 and ending by the amount that you specified as stock minus 1.
+**Deploy your token shop contract**
+You can use the smartpy IDE to deploy your contract.
+1. Open the smartpy IDE.
+2. In the compilation target, enter your address as the owner address and the address of the contract you just created as the token address.
+3. Click on "run" to compile your contract.
+4. Select token_shop from the dropdown under compilations.
+5. Click on "Deploy Michelson Contract" in the right window and then own the "Deploy Michelson Contract" button.
+6. Select the Granada network from the "Node and Network" dropdown.
+7. Click on Temple wallet and confirm the connection.
+8. Click on "ESTIMATE COST FROM RPC" button.
+9. Click on "DEPLOY CONTRACT" button, accept the information and confirm the transaction.
+10. After the contract is deployed, save the address of the contract.
 
-We created this simple solution to stay in the scope of a beginner contract, a more sophisticated solution would have been to let the contract itself mint the tokens, but this might be a topic for another time.
+**Mint a token and send it to the contract**
+1. Open your NFT contract in "better-call.dev".
+2. Click on "mint" in the right window.
+3. Enter the address of your token shop contract as the owner address.
+4. Enter the amount you want to mint (1).
+5. Click on the "EXECUTE" button and confirm the transaction.
 
-**Test your contract** 
-Once you send the contract all tokens, check if the contract received them in https://better-call.dev/ , and then try to buy one. You only need to enter the index and the right amount of tokens to buy it, then you should receive the token in your wallet and the owner should receive the specified tez.
+**Buy the token**
+1. Open your token shop contract in "better-call.dev".
+2. Click on the "TRANSFERS" tab and you should see the token you just minted.
+3. Click on the "INTERACT" tab and enter ounder amount 1000000 mutez which is one tez.
+4. Click on the "EXECUTE" button and confirm the transaction.
+5. In your wallet you can click on "Manage", "Add Asset", and enter the address of your NFT token to see it in your wallet.  
 
 That's it! Great job. You can now try to build your own contract and participate in our challenge to receive feedback on your project and maybe earn some tez for it!
