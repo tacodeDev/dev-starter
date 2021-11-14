@@ -153,63 +153,7 @@ We try to buy the token, which should not raise any errors. Then we try to buy t
 
 Test this contract in the [SmartPy IDE](https://smartpy.io/ide?code=eJy1VU1v2zAMvftXCNnFxjKj3W4FUqwbsFt7WLvTMBiKTCdCHMmQ5HbusP8@UnYc@SMIunU6JLb4TD5Sj5TcV9o4ZvfcuKph3DJbRZEoubXsQe9A3W91lQmtCrm5ihiuHAqWZVJJl2WxhbJYMv2kwNzkuQFrkxZFi4xpaGOrAXQSJ7ZV@lkrZ7hwycloLZlxHA9xTQVxv@9tVfpwy6vh5sFwx91y1vAVhDb59CNaojYGlMus02KHGZ10RKsyUkAHuq0dPE9QSTT_lkzTm2S2x8R@zSWguIsvEnY1ZzMvy41cvU_OZoepIexMdr9PpteeKbpqHyJv_Yh@kY1pskpL5eKkV8S6bjJHqukk4Z@znVQ5SiWHn6E4qtRCp4wxbHk4vCSEP4KRRTMqNpHMuePE1HGp7MTZqEZ7FDjfUHUW39ROoe4ZYZkuWraLmVIcXVJR@5AbcNNoZxlXKd_rWjl2vQocp_7MTlK918Y0WM8ttN@wRteMG3wzjVQb3GRVbcSWW2D4wzjLZVEAiaZVw1xaJxgGpIa6uz5K@FWISst07ajy3v8cxTcoK2GAo5zJpccNFUon8X18Cj_SccfwdaiMkfndIbHLJAxtAQ@cwvrh6BWCL_1UZLws20ThGf@58y8CdxGM37qh1lUeBy01mL_LoyqWYTHvtMOTFN3kXSRRFFHv8TzPHFgXK773uJ4SQqgNvbHrNapgIRUEjvw@L4MZYV3GhaD48eKGDIu2Dmu9noN80msi41MToLiRmgW4w158wFCxVsF10hemHy_jK22oyNFdhayoBv6qGkomGXJ6u_Kxo64QOJ1aUfas0uPAukhSU6s4EBcKyZByykFjds0bDNdlEDoIwp6k27Ino1H1Mp8LefmPIWk9Ipam0hdeWjhPxM@C10z_8gVcUIJbudmi2_aCwp5R6AeELCTMVuhvWX0YHUpbh9G8@R8qOFGGP5f7w8c-).
 
-## 4.2 Create an NFT
-In the last section, we created a shop where users can buy tokens. We already have the payment functionality, but they don't get anything back in return. In this section, we will create an NFT that can be sold in the shop.
-
-A crypto token or simply token is a digital asset whose ownership is stored on a blockchain.
-
-A token can be fungible which means that all tokens of this type are the same and interchangeable. This is the case for cryptocurrencies like tez or btc, for example.
-
-A token can also be non-fungible, which means that all tokens are different. Such a token is called a non-fungible token (NFT), and can represent ownership of unique assets like digital art, music, or in-game items.
-
-Digital art is a very popular use case for NFTs so we will use this as an example here.
-
-**Set up OpenMinter**
-We are going to use OpenMinter in this course to create NFTs.
-
-Clone the OpenMinter GitHub repository:
-```
-git clone https://github.com/tqtezos/minter.git
-```
-
-Change to the right directory:
-```
-cd minter
-```
-
-Install OpenMinter:
-```
-yarn install
-```
-
-Start OpenMinter:
-```
-yarn start
-```
-
-Now OpenMinter should run under:
-http://localhost:3000/
-
-
-Even though NFTs are unique, we can create multiple editions of an NFT. You might know this from art prints or photographs that are often printed in editions, each numbered and signed by the artist.
-
-**Mint NFTs**
-A token contract can *mint* (create) NFTs. In this example, we are going to use a contract to mint an edition consisting of multiple NFTs of an artwork.
-
-On OpenMinter the NFT token contract is a *Collection*. Go ahead and create a Collection on OpenMinter. Click on "Collection" in the top navbar, then on "New Collection" on the side bar and enter a name like "Green Square" for example.
-
-Now we can create our first asset in our collection, the first artwork of our edition. Click on "New Asset", drag an image to the screen, and click on the "Next" button.
-
-You need to select a collection for your asset, for example, our Green Square, name the asset, for example, Green Square 01, add a description, for example, "Green Square 1 of 1", and click on the "Next" button.
-
-Confirm the details of your asset and click on the "Create" button. Now your wallet should pop up and ask you to sign the transaction for the creation of your asset. If you have done that you might need to wait a couple of minutes and your asset should appear on your collection and inside your wallet.
-
-Click on the asset in your wallet and on the "About" tab. There you can see the address of the token contract, the name, and the id of the token that you created. Since it's the first one, the id is 0.
-
-Now that we have created an NFT let's transfer it to a contract so we are able to sell it there.
-
-## NFT Transfer Contract
-
+## 4.2 NFT Transfer Contract
 In this section we will create a very simple contract that can transfer an FA2 token, to be specific an NFT.
 
 ### FA2 Token Standard
@@ -251,7 +195,6 @@ class TokenTransfer(sp.Contract):
         self.init()
         self.tokenAddress = tokenAddress
 ```
-
 
 Next, we create our `TokenTransfer` contract class. We initiate the contract with an empty storage but store `tokenAddress` from a parameter, this will be the address of the FA2 token we want to transfer.
 
@@ -425,7 +368,7 @@ Now we want to mint (create) the token in our test scenario.
 
     token.mint(
         address = shop.address,
-        amount = 100,
+        amount = 1,
         metadata = tokenMeta,
         token_id = 0
     ).run(
@@ -436,7 +379,7 @@ Now we want to mint (create) the token in our test scenario.
  
 We will need some metadata for our token. This is data that can be used by programs like wallets or explorers to display and interact with your token correctly. We choose an arbitrary name, zero decimals, and a symbol.
  
-To create our token we will use the mint method of the token that we just created. The recipient of the tokens will be the address of our token shop, we will create 100 tokens, add the metadata we just created and give the token the id 0. The admin will execute this function.
+To create our token we will use the mint method of the token that we just created. The recipient of the tokens will be the address of our token shop, we will create 1 token, add the metadata we just created and give the token the id 0. The admin will execute this function.
  
 ```
     shop.transfer_token().run(
@@ -549,10 +492,10 @@ def test():
 
 Test this contract in the [SmartPy IDE](https://smartpy.io/ide?code=eJydVV1v2yAUfc@vsNgL1iI33WOlScuqdpq0dVOaPU0TIjZpUQ14gKVmv373GmPj2lGn@SUBzj333C@QqjHWZ05x65tTxl3mmlW2ut2@k6rJ3sOqkKaQHYp5oZqae0EJnBfNieSrsubOZbCkwaSAn_xqlcHXwMmqB@zNk9B7y7U7CkuB9Npob3npe2wljhljUkvPGHWiPq4zjybbqrLCuR6FHx4WHdCfGoFU@x@wyucA@mIvJYTI0iVEjLAPwCZA14k1RupIgNp8L511Vp3CRJN_3toHtwc9IWP7L9J5Ohx3CmB3J0pjq@k@fkdrFOste0HrGcg_u7Pk_@Jk4DGvuhqhECuTVY@_4_48livTaj8iF4F5UfOTaT2lBGSQdYa_wQcsSOAgeZ7PrKc7CU@XOzSG_JDEMO9Lil_Z91pQF1fTFI0lnMY465zpMYmNQUbPhWkgJGcUzMnnu_3N7nZ7fZPd7HbfdiSVFVwGUTXW9Cf8sQvlS_oD5TC@pGToj0A1y@AZ7sHcDB50JexyoZOG2Cwj0jbQ3NPL10r5KylZ8n@c3KaIKU6Fh9ylGgCoWi_@0E2ebsdqTxtjhZMOaYQbDZKlucLBJZNLCkrVDT4C@lF_g1eB1CLjU1pey7KffIQzXpaYBUq2eEBCVAdzWIJ8NIcewCsl9SILHkBRLffGDh3kSqG5lSZLTOIejaCuYADA@3nIwHhRMwjjKB9oJQ7tA1Omwij2thVJCpXwvOKeBzetl7Ur4h4zR9bampJH7xt3dXEhnjm8EAJmTJGEI4bW_RY83rlDMwyxvO2v5Rjjo8E3aPp4LF3jkXNOhxTANmbjq@hiwQdM8SfBYixjfmI7fLJC6PvfLbeCjLFUopSK1246A@6kDqburO6_kz600Wmh8DlJ8hHVo7xiNs_DFF1uNouVGCIZT9PZDP4L2@rRZ5jrWIRUYafhxQN31hg7@n@NYQSC6V_dqT5p).
 
-### 4.4 NFT Shop Contract
+### 4.3 NFT Shop Contract
 In this section of the chapter, we will combine our shop contract with our NFT transfer functionality.
 
-The idea is to build a shop that can sell artworks in limited editions.
+The idea is to build a shop that can sell NFTs of artworks.
 
 
 ```
@@ -651,7 +594,6 @@ We take the start of our `buy_token` entry point from our TokenShop contract, we
         )
 ```
  
- 
 The bottom part of our `buy_token` entry point stays the same as in our TokenTransfer contract, the only thing that we change is how we get the `tokenAddress`. In this contract, it is provided by the config class, instead of coming from the parameter.
 
 ```
@@ -681,7 +623,7 @@ if "templates" not in __name__:
             init_data = sp.map({
                 sp.nat(0) :
                 sp.record(
-                    current_stock = sp.nat(100),
+                    current_stock = sp.nat(1),
                     token_address = token.address,
                     price = sp.tez(1)
                 )
@@ -690,9 +632,9 @@ if "templates" not in __name__:
         scenario += shop
 
         tokenMeta = FA2.make_metadata(
-            name = "FreshTacoToken",
+            name = "Artwork01",
             decimals = 0,
-            symbol= "FTT0"
+            symbol= "ART1"
         )
 
         token.mint(
