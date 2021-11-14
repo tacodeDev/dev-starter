@@ -20,7 +20,7 @@ class TokenShop(sp.Contract):
                 )
             )
         )
-        self.init(init_data);
+        self.init(init_data)
         self.config = config
 
     @sp.entry_point()
@@ -102,7 +102,7 @@ if "templates" not in __name__:
             init_data = sp.map({
                 sp.nat(0) :
                 sp.record(
-                    current_stock = sp.nat(100),
+                    current_stock = sp.nat(1),
                     token_address = token.address,
                     price = sp.tez(1)
                 )
@@ -111,9 +111,9 @@ if "templates" not in __name__:
         scenario += shop
 
         tokenMeta = FA2.make_metadata(
-            name = "FreshTacoToken",
+            name = "Artwork01",
             decimals = 0,
-            symbol= "FTT0"
+            symbol= "Art01"
         )
 
         token.mint(
@@ -151,7 +151,7 @@ if "templates" not in __name__:
 
 
     # Adjust the compilation target accoring to your contract and admin address
-    sp.add_compilation_target("taco_shop", TokenShop(
+    sp.add_compilation_target("token_shop", TokenShop(
         config = TokenShop_config(
             ownerAddress = sp.address("tz1Te9TEmMpqQxe13cvsT2ipfLGHm9uhCadM")
         ),
