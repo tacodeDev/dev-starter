@@ -16,7 +16,7 @@ First, we create a configuration class, because we want to enable the user to en
 
 We initiate `ownerAddress` and assign it the value of our parameter `ownerAddress`.
 
-Now let's build our contract.
+Now let’s build our contract.
 
 ```
 class TokenShop(sp.Contract):
@@ -497,22 +497,23 @@ In this section of the chapter, we will combine our shop contract with our NFT t
 
 The idea is to build a shop that can sell NFTs of artworks.
 
-
 ```
 import smartpy as sp
  
 FA2imp = sp.io.import_template("FA2.py")
 class FA2(FA2imp.FA2):
     pass
+```
 
 We import the FA2 implementation as we have done in the token transfer contract.
 
+```
 class TokenShop_config:
     def __init__(self, ownerAddress):
         self.ownerAddress = ownerAddress
 ```
 
-We add a token configuration class as we have done in our TokenShop contract before, but we add the token address of our FA2 token in here too.
+We add a token configuration class as we have done in our shop contract before.
 
 ```
 class TokenShop(sp.Contract):
@@ -531,7 +532,7 @@ class TokenShop(sp.Contract):
         self.config = config
 ```
 
-We initialise our contract as we did in our TokenShop contract and set the stock of the token to 100.
+We initialize our contract as we did in our shop contract.
 
 ```
     @sp.entry_point()
@@ -555,7 +556,7 @@ We initialise our contract as we did in our TokenShop contract and set the stock
 ```
 
 
-We take the start of our `buy_token` entry point from our TokenShop contract, we don’t change anything here.
+We take the beginning of our `buy_token` entry point from our shop contract, and we don't need to change anything here.
 
  ```
         xArgsType = sp.TList(
