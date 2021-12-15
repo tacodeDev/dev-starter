@@ -33,7 +33,7 @@ Learn more about LIGO in the [LIGO Documentation](https://ligolang.org/docs/intr
 SmartPy is a great starting point if you are familiar with Python and want an easy entry.
 SmartPy adds another abstraction layer; it compiles to SmartML, which is written in OCaml, which is then compiled to Michelson.
 
-Learn more about SmartPy in the [SmartPy Documentation](https://smartpy.io/reference.html).
+Learn more about SmartPy in the [SmartPy Documentation](https://smartpy.io/docs/).
 
 ## 2.2 Introduction to CameLIGO
 This section will give you a brief intro to LIGO, its different syntaxes, and Ocaml.
