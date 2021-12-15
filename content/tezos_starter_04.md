@@ -78,72 +78,22 @@ We need to create the receiver address and wrap it as a contract unit that repre
   in
   ((operations: operation list), token_shop_storage)
 ```
+
 We will create a transaction to an account and not a contract, so we will use unit as the first parameter and then pass the amount and the receiver address.
 We need to create a list of operations that we will return at the end of the contract, which, in this case, will be just one, and then return the list as well as our updated `token_shop_storage` storage at the end of the contract.
 
 You can now deploy this contract via the CLI or in the LIGOlang IDE.
+
+Test this contract in the [Ligolang IDE](https://ide.ligolang.org/p/TBv_7CpnJRpSaBxTjoqoCg).
+
 Storage example: `Map.literal [
  (0n, { current_stock = 20n ; token_price = 2mutez }) ;
  (1n, { current_stock = 4n ; token_price = 3mutez }) ;
 ]`
 
-## 4.2 Create an NFT
-In the last section, we created a shop where users can buy tokens. We already have the payment functionality, but they don't get anything back in return. In this section, we will create an NFT that can be sold in the shop.
+## 4.2 NFT Transfer Contract
+In this section, we will create a very simple contract that can transfer an FA2 token, to be specific an NFT.
 
-A crypto token or simply token is a digital asset whose ownership is stored on a blockchain.
-
-A token can be fungible which means that all tokens of this type are the same and interchangeable. This is the case for cryptocurrencies like tez or btc, for example.
-
-A token can also be non-fungible, which means that all tokens are different. Such a token is called a non-fungible token (NFT), and can represent ownership of unique assets like digital art, music, or in-game items.
-
-Digital art is a very popular use case for NFTs so we will use this as an example here.
-
-**Set up OpenMinter**
-We are going to use OpenMinter in this course to create NFTs.
-
-Clone the OpenMinter GitHub repository:
-```
-git clone https://github.com/tqtezos/minter.git
-```
-
-Change to the right directory:
-```
-cd minter
-```
-
-Install OpenMinter:
-```
-yarn install
-```
-
-Start OpenMinter:
-```
-yarn start
-```
-
-Now OpenMinter should run under:
-http://localhost:3000/
-
-
-Even though NFTs are unique, we can create multiple editions of an NFT. You might know this from art prints or photographs that are often printed in editions, each numbered and signed by the artist.
-
-**Mint NFTs**
-A token contract can *mint* (create) NFTs. In this example, we are going to use a contract to mint an edition consisting of multiple NFTs of an artwork.
-
-On OpenMinter the NFT token contract is a *Collection*. Go ahead and create a Collection on OpenMinter. Click on "Collection" in the top navbar, then on "New Collection" on the side bar and enter a name like "Green Square" for example.
-
-Now we can create our first asset in our collection, the first artwork of our edition. Click on "New Asset", drag an image to the screen, and click on the "Next" button.
-
-You need to select a collection for your asset, for example, our Green Square, name the asset, for example, Green Square 01, add a description, for example, "Green Square 1 of 1", and click on the "Next" button.
-
-Confirm the details of your asset and click on the "Create" button. Now your wallet should pop up and ask you to sign the transaction for the creation of your asset. If you have done that you might need to wait a couple of minutes and your asset should appear on your collection and inside your wallet.
-
-Click on the asset in your wallet and on the "About" tab. There you can see the address of the token contract, the name, and the id of the token that you created. Since it's the first one, the id is 0.
-
-Now that we have created an NFT let's transfer it to a contract so we are able to sell it there.
-
-## 4.3 NFT Transfer Contract
-In this section we will create a very simple contract that can transfer an FA2 token, to be specific an NFT.
 ### FA2 Token Standard
 You might have heard of the ERC-20 token standard on Ethereum. FA2 is a token standard on Tezos. A token standard helps to standardize the important features of tokens, like functionality and permissions. This allows us to create common interface standards so that developers can easily build applications that interact with tokens like wallets, exchanges, or games. Have a look a the [TZIP-12](https://gitlab.com/tezos/tzip/-/blob/master/proposals/tzip-12/tzip-12.md) which is a template for the FA2-standard.
 
@@ -241,17 +191,9 @@ Now we can build our operation, which is a transaction. We have the list of our 
 
 We need to return the operation we just created as a list, and the storage, and we are done.
 
-Now compile the contract and deploy it via your CLI or IDE.
+Test this contract in the [Ligolang IDE](https://ide.ligolang.org/p/-mTUH135iSJ7VH5TwXHRCw).
 
-**Test the contract**
-Once you have deployed the contract, send your NFT token to the token address of the contract. Before you send it, make sure that it has the same token id as in the contract.
-
-If you look up your contract in https://better-call.dev/, you should be able to see your token in the contract when you click on the "TRANSFERS" tab in the top navbar.
-
-Next click on the tab interact, enter the address of your NFT contract in the "PARAMETERS" ""@address_1" field and your wallet address in the source field under "OPTIONAL SETTINGS".
-Click execute and sign the transaction through your wallet. The NFT should be back in your wallet now.
-
-## 4.4 NFT Shop Contract
+## 4.3 NFT Shop Contract
 In this section of the chapter, we will combine our shop contract with our NFT transfer functionality.
 
 The idea is to build a shop that can sell artworks in limited editions.
@@ -316,7 +258,7 @@ let main (token_kind_index, token_shop_storage : nat * token_shop_storage) : ret
   in
 ```
 
-In the next part we are using a large part of the shop contract to create the main function, get the kind of token from the index through the parameter and check if the token exists, the right price was paid, and if it's still in stock. We also update the storage and reduce the stock by one, if the contract execution goes through.
+In the next part, we are using a large part of the shop contract to create the main function, get the kind of token from the index through the parameter and check if the token exists, the right price was paid, and if it's still in stock. We also update the storage and reduce the stock by one, if the contract execution goes through.
 
 ```
   let tr : transfer = {
@@ -344,7 +286,6 @@ The only change from our transfer list is that we are reading the token_id type 
 ```
 We are creating the transaction operation for our FA2 transfer, the only change here is that we now get our token address from the token the user specified in the parameters with token_kind.token_address.
 
- 
 ```
   let receiver : unit contract =
     match (Tezos.get_contract_opt owner_address : unit contract option) with
@@ -366,41 +307,50 @@ The payout functionality remains the same as in the shop contract.
 
 Finally, we return a list of operations consisting of the fa2_operation and the payout_operation. We also return the new storage, where we reduced the stock of the token.
 
-**Create your NFTs**
-To deploy the contract you need to create the storage and for that, you need the addresses of your NFT contract, so create your NFTs first.
+Test this contract in the [Ligolang IDE](https://ide.ligolang.org/p/plMFVM9LSN5nddC0sRrPrQ).
 
-You can create for example 2 collections in OpenMinter and from the first collection, for example, Red Circle, you create an edition of 2 and for your second collection, for example, Blue Triangle, you create an edition of 3.
+#### Deploy and test your contract 
+Before you can deploy your contract, you need to know the address of the token you want to sell.
 
-Copy the addresses of your two collections.
+**Create an NFT to test**
+To create a simple NFT on the hangzhounet testnet we will just fork a token contract.
+1. Open this contract (https://better-call.dev/hangzhou2net/KT1SZhncyQ4F7AGchwM8e4N1JsijkqZdYJ5o/fork) in "better-call.dev".
+2. Click on Fork.
+3. Add your address as the administrator.
+4. Select "HANGZHOUNET" as the network.
+5. Click execute at the bottom and confirm the transaction with your temple wallet.
+6. After your contract is deployed, save the address of the contract.
 
 **Deploy your contract**
-Create the storage for your contract, this could look like this:
+Create the storage for your contract, which could look like this:
 
 ```
 Map.literal [ 
   (0n, { 
-    current_stock = 2n ; 
-    token_address = ("KT19hXKZjvg7KqQw78qfsbTQzZ5FMbNvkt7v" : address); 
+    current_stock = 1n ; 
+    token_address = ("KT1SZhncyQ4F7AGchwM8e4N1JsijkqZdYJ5o" : address); 
     token_price = 1mutez
-  }); 
-  (1n, { 
-    current_stock = 3n; 
-    token_address = ("KT1QhzsrJkRmvEVEie45EPhMp5KY2nbGwKG2" : address); 
-    token_price = 1mutez 
-  })
+  });
 ]
 ```
 
 Use the addresses of the NFTs that you just created, add the initial stock and the price per asset in mutez.
 
-Now you can deploy the contract. Copy the address of your contract.
+Now you can deploy the contract. Either via the Tezos client or the IDE.
+After you deployed your contract, copy the address of your contract.
 
-**Send your contract the tokens**
-Go to your wallet and send all tokens to the address of the contract. Remember you need to send a range of IDs starting by 0 and ending by the amount that you specified as stock minus 1.
+**Mint a token and send it to the contract**
+1. Open your NFT contract in "better-call.dev".
+2. Click on "mint" in the right window.
+3. Enter the address of your token shop contract as the owner address.
+4. Enter the amount you want to mint (1).
+5. Click on the "EXECUTE" button and confirm the transaction.
 
-We created this simple solution to stay in the scope of a beginner contract, a more sophisticated solution would have been to let the contract itself mint the tokens, but this might be a topic for another time.
-
-**Test your contract**
-Once you send the contract all tokens, check if the contract received them in https://better-call.dev/ , and then try to buy one. You only need to enter the index and the right amount of tokens to buy it, then you should receive the token in your wallet and the owner should receive the specified tez.
+**Buy the token**
+1. Open your token shop contract in "better-call.dev".
+2. Click on the "TRANSFERS" tab and you should see the token you just minted.
+3. Click on the "INTERACT" tab and enter ounder amount 1000000 mutez which is one tez.
+4. Click on the "EXECUTE" button and confirm the transaction.
+5. In your wallet you can click on "Manage", "Add Asset", and enter the address of your NFT token to see it in your wallet.  
 
 That's it! Great job. You can now try to build your own contract and participate in our challenge to receive feedback on your project and maybe earn some tez for it!
