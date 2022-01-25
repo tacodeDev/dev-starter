@@ -74,7 +74,7 @@ A *seed phrase* is a group of words used to encrypt your private key, making it 
 “Not your keys, not your coins” is a well-known saying suggesting that you don’t really own your digital assets unless you are in possession of the private keys/seed phrase for your wallet. Often a third party, like exchanges or payment providers, hold your private keys.
 
 ## 1.4 Use a Tezos wallet
-In this section, we will show you how you can get tokens for the Tezos testnet, Florence, and how you can make a transaction with them.
+In this section, we will show you how you can get tokens for the Tezos testnet, Hangzhounet, and how you can make a transaction with them.
 
 ### Get Tezos testnet tokens
 ![](https://raw.githubusercontent.com/tacodeDev/dev-starter/main/content/gifs/tezos_1_4_1_get_tokens.gif)
@@ -83,10 +83,10 @@ In this section, we will show you how you can get tokens for the Tezos testnet, 
 2. Click on the “Get coins” button in the chat interface.
 3. Copy the Tezos address of your account in the Temple wallet.
 4. Send your Tezos address to the Telegram bot.
-5. Change the network from the mainnet to the Florence Testnet.
+5. Change the network from the mainnet to the Hangzhounet Testnet.
 6. Now, you should see 100 Testnet tokens in your wallet.
 
-A testnet like Florence is Tezos test network. The mainnet is the main Tezos network. In contrast to the mainnet, transactions on the testnet don’t cost you anything, and Tezos tokens (tez) don’t have any real value. The testnet is a great place to test your contracts before deploying them to the mainnet.
+A testnet like Hangzhounet is Tezos test network. The mainnet is the main Tezos network. In contrast to the mainnet, transactions on the testnet don’t cost you anything, and Tezos tokens (tez) don’t have any real value. The testnet is a great place to test your contracts before deploying them to the mainnet.
 
 There are different entities that can send you testnet tokens (*faucets*). You can find a list of them in the Tools section on the [Tezos homepage](https://tezos.com/developer-portal).
 

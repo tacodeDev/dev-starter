@@ -8,7 +8,7 @@ This enables smart contracts to execute agreements automatically based on predef
 
 On Tezos, smart contracts are a type of *account* with an *address* that can store code, have a *balance*, and send *transactions*. Users of smart contracts can interact with them by submitting transactions to the smart contract that execute functions as defined in the smart contract.
 
-Learn more about smart contracts on [Open Tezos](https://ligolang.org/docs/language-basics/sets-lists-tuples#sets).
+Learn more about smart contracts on [Open Tezos](https://ligolang.org/docs/intro/introduction).
 
 **Michelson**
 In Tezos, the low-level machine language that runs smart contracts on the Tezos network is called *Michelson*. The language is stack-based, with high-level data types and primitives, and strict static type checking.
@@ -492,12 +492,12 @@ Let's look at an example where the variants carry information.
 
 ```
 type name = string
- 
+
 type user =
   Admin of name
 | General of name
 | Guest
- 
+
 let a : user = Admin "Alice"
 let b : user = Guest
 ```
@@ -512,11 +512,12 @@ We can use the value of variants, records, tuples, or lists to perform these dif
 Let's see how pattern matching works if we *match* on variants. We use the same variant as in the example before.
 
 ```
+type name = string
 type user =
   Admin of name
 | General of name
 | Guest
- 
+
 let greet_user (u : user) : string =
  match u with
    Admin (n) -> "Hello, admin " ^ n
@@ -1095,22 +1096,22 @@ After you have successfully installed Docker you can run LIGO in your terminal.
 
 **On Linux or OSX**
 ```
-docker run --rm -v "$PWD":"$PWD" -w "$PWD" ligolang/ligo:0.19.0
+docker run --rm -v "$PWD":"$PWD" -w "$PWD" ligolang/ligo:0.34.0
 ```
 
 **On Windows**
 ```
-docker run --rm -v "%CD%":/cd -w /cd ligolang/ligo:0.19.0
+docker run --rm -v "%CD%":/cd -w /cd ligolang/ligo:0.34.0
 ```
 
 Hint: If you have trouble running LIGO through this command on Windows try:
 ```
-docker run --rm -v ${pwd}:/cd -w /cd ligolang/ligo:0.19.0
+docker run --rm -v ${pwd}:/cd -w /cd ligolang/ligo:0.34.0
 ```
 
 Now you should see various commands that should look familiar from the functionality of the IDE.
 
-Let’s try to use the compiler now. 
+Let’s try to use the compiler now.
 
 Save a contract in a mligo file. In this example, we are going to use the simple [Increment contract](https://ide.ligolang.org/p/LhrUay2LusUXBiqiEhU4iA) and call the file `increment.mligo`.
 
@@ -1119,27 +1120,27 @@ We can use `evaluate-call` to evaluate a function. This is how the command looks
 
 Linux or OSX
 ```
-docker run --rm -v "$PWD":"$PWD" -w "$PWD" ligolang/ligo:0.19.0 evaluate-call increment.mligo add '(1,2)'
+docker run --rm -v "$PWD":"$PWD" -w "$PWD" ligolang/ligo:0.34.0 run evaluate-call increment.mligo -e add '(1,2)'
 ```
 
 Windows
 ```
-docker run --rm -v "%CD%":/cd -w /cd ligolang/ligo:0.19.0 evaluate-call increment.mligo add '(1,2)'
+docker run --rm -v "%CD%":/cd -w /cd ligolang/ligo:0.34.0 run evaluate-call increment.mligo -e add '(1,2)'
 ```
 
-Subsequently, we will just shorten the LIGO commands in our explanation like this: `evaluate-call increment.mligo add '(1,2)'`
+Subsequently, we will just shorten the LIGO commands in our explanation like this: `run evaluate-call increment.mligo -e add '(1,2)'`
 
-We chose the LIGO function we want to execute, in this case, `evaluate-call`. As arguments we need the source file, in our case `increment.mligo`, the entrypoint in this case, `add`, and the parameter, `1` and `2`.
+We chose the LIGO function we want to execute, in this case, `run evaluate-call`. As arguments we need the source file, in our case `increment.mligo`, the entrypoint in this case, `add`, and the parameter, `1` and `2`.
 
 You should get back `3`.
 
 **Dry Run**
 Let's dry run the contract with:
 ```
-dry-run increment.mligo main 'Increment(1)' '3'
+run dry-run increment.mligo -r main 'Increment(1)' '3'
 ```
 
-We need again the source file, the entry point, in this case, `increment`, the parameter, let's use `1`, and the storage, in this case, `3`.
+We need again the source file, the entry point, in this case, `Increment`, the parameter, let's use `1`, and the storage, in this case, `3`.
 
 If you execute your command, the Michelson compilation should look like this:
 `( LIST_EMPTY() , 4 )`
@@ -1147,7 +1148,7 @@ If you execute your command, the Michelson compilation should look like this:
 **Compile Contract**
 Compiling your contract is pretty straightforward:
 ```
-compile-contract increment.mligo main
+compile contract increment.mligo -e main
 ```
 
 To compile the contract we just need the source file and the entrypoint, in this case, our `main` function. 
@@ -1162,7 +1163,7 @@ The compiled michelson should look like this:
 You can save the compiled Michelson in a separate file, this will be helpful when we want to originate the contract later.
 
 ```
-compile-contract increment.mligo main --output-file=increment.tz
+compile contract increment.mligo -e main --output-file increment.tz
 ```
 
 You can simply specify an output file, where the compilation should be saved to. In this case, we are saving it to `increment.tz.`
@@ -1171,7 +1172,7 @@ You can simply specify an output file, where the compilation should be saved to.
 When originating a contract, we not only need the contract code in Michelson, but also the storage. So let’s compile the storage too and save it in a new file.
 
 ```
-compile-storage increment.mligo main '5' --output-file=increment_storage.tz
+compile storage increment.mligo -e main '5' --output-file increment_storage.tz
 ```
 
 We need again the source file, the entrypoint, the storage and, the output file. In this case, since our storage is just the int 5, the compilation is not really necessary, but it will become very helpful once you are using more complex storage.
@@ -1214,16 +1215,16 @@ Open your wallet extension and copy your private keys.
 Now you need to import your secret key.
 
 ```
-tezos-client -E https://testnet-tezos.giganode.io import secret key templeacc1 unencrypted:<secret_key>
+tezos-client -E https://rpc.hangzhounet.teztnets.xyz import secret key templeacc1 unencrypted:<secret_key>
 ```
 
-First, you need to specify the endpoint of the node RPC interface that you want to connect to with `-E` and the address of the node. In this case we will use the public Florence test net on the giga node, `https://testnet-tezos.giganode.io`.
+First, you need to specify the endpoint of the node RPC interface that you want to connect to with `-E` and the address of the node. In this case we will use the public Hangzhounet test net, `https://rpc.hangzhounet.teztnets.xyz`.
 Next we will import the secret key with the `import secret key` command and we need to name our wallet, in our case `templeacc1`, and then instead of `<secret_key>`, you paste your secret key.
 
 Now you can try to get the balance for this just imported account to see if everything went fine.
 
 ```
-tezos-client -E https://testnet-tezos.giganode.io get balance for templeacc1 
+tezos-client -E https://rpc.hangzhounet.teztnets.xyz get balance for templeacc1 
 ```
 You should now see the same balance as in your Temple wallet extension for this account.
 
@@ -1231,7 +1232,7 @@ You should now see the same balance as in your Temple wallet extension for this 
 Ok now let's try to originate the increment contract.
 
 ```
-tezos-client -E https://testnet-tezos.giganode.io originate contract main transferring 0 from templeacc1 running increment.tz --init "`cat increment_storage.tz`" --burn-cap 2 --force
+tezos-client -E https://rpc.hangzhounet.teztnets.xyz originate contract main transferring 0 from templeacc1 running increment.tz --init "`cat increment_storage.tz`" --burn-cap 2 --force
 ```
 
 We will use the same endpoint and the `originate` command. We need to specify the entrypoint in our case the `main` function. 
@@ -1248,7 +1249,8 @@ Instead of the example address above, there should be the address of your contra
 **Test contract in smart contract explorer**
 We will now use the smart contract explorer, *Better Call Dev* to interact with our contract.
 
-You should find your contract now under `https://better-call.dev/florencenet/<contract_address>`.
+You should find your contract now under `https://better-call.dev/hangzhou2net/<contract_address>`.
+
 
 In the explorer you should see the storage, `5`. You should also see the compiled Michelson code and you should be able to interact with your contract. 
 Increment the storage by 1.
