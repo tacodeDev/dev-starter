@@ -101,7 +101,7 @@ Among other things, we are importing the `useState` hook from `React` to add sta
 ```
 const App = () => {
   const [Tezos, setTezos] = useState<TezosToolkit>(
-    new TezosToolkit("https://api.tez.ie/rpc/florencenet")
+    new TezosToolkit("https://hangzhounet.api.tez.ie")
   );
   const [contract, setContract] = useState<any>(undefined);
   const [publicToken, setPublicToken] = useState<string | null>("");
@@ -114,14 +114,14 @@ const App = () => {
   const [activeTab, setActiveTab] = useState<string>("transfer");
 ```
 
-Next, we are handling our state. First, we declare our state variable `Tezos` and the function `setTezos` that we use to update `Tezos`. We then use the `useState` hook to set the initial value of `Tezos`, and we instantiate the `TezosToolkit` with an RPC URL. In our case, we will operate on the Florence testnet.
+Next, we are handling our state. First, we declare our state variable `Tezos` and the function `setTezos` that we use to update `Tezos`. We then use the `useState` hook to set the initial value of `Tezos`, and we instantiate the `TezosToolkit` with an RPC URL. In our case, we will operate on the Hangzhounet testnet.
 
 Our most important state variables: `contract`, `wallet`, `userAddress`, `userBalance` and `storage` will all be empty initially. Their purpose should be self-explanatory from their naming.
 
 We create a constant `contractAddress` that contains the address of the increment/decrement contract.
 
 ```
-  // Florencenet Increment/Decrement contract
+  // Hangzhounet Increment/Decrement contract
   const contractAddress: string = "KT1XCAdyQsHuNTkeLJes7R3krmGhtsmoBvNz";
 ```
 
@@ -159,14 +159,14 @@ For now, we have some greetings and explanatory text, but most importantly, our 
 
 Let's look into the component. Open src/components/connectWallet.tsx.
 
-We start on line 85; when the user loads the Dapp, an async function is executed that creates a wallet instance.
+We start on line 86; when the user loads the Dapp, an async function is executed that creates a wallet instance.
 
 ```
     (async () => {
       // creates a wallet instance
       const wallet = new BeaconWallet({
         name: "Taquito Boilerplate",
-        preferredNetwork: NetworkType.EDONET,
+        preferredNetwork: NetworkType.HANGZHOUNET,
         disableDefaultEvents: true, // Disable all events / UI. This also disables the pairing alert.
         eventHandlers: {
           // To keep the pairing alert, we have to add the following default event handlers back
@@ -182,7 +182,7 @@ We start on line 85; when the user loads the Dapp, an async function is executed
 
 The BeaconWallet package is the recommended way to connect your Dapp to a wallet. It implements the TZIP-10 standard that describes the communication between the wallet and Dapp. It works with any wallet supporting TZIP-10, such as the Beacon extension, Temple, or Kukai.
 
-The minimum requirement to instantiate the wallet is an object with a name property that contains the name of your Dapp. We also need to specify that we want to connect to the Florence testnet.
+The minimum requirement to instantiate the wallet is an object with a name property that contains the name of your Dapp. We also need to specify that we want to connect to the Hangzhounet testnet.
 
 Next, we use event handlers, most importantly for the event PAIR_sucess. When the user successfully pairs their wallet, we update the state variable `publicToken` through the callback function `setPublicToken` with `data.publicKey`.
 
@@ -244,8 +244,8 @@ If the user clicks on the “Connect with wallet” we call the `connectWallet` 
     try {
       await wallet.requestPermissions({
         network: {
-          type: NetworkType.FLORENCENET,
-          rpcUrl: "https://api.tez.ie/rpc/florencenet"
+          type: NetworkType.HANGZHOUNET,
+          rpcUrl: "https://hangzhounet.api.tez.ie"
         }
       });
       // gets user's address
@@ -258,7 +258,7 @@ If the user clicks on the “Connect with wallet” we call the `connectWallet` 
   };
 ```
 
-We already updated our `wallet` state variable with the wallet instance when the Dapp is loaded. Now, we need to wait until the user has given permission to connect their wallet to the Florence testnet. If they grant permission, we get the user address like before and call our setup function again.
+We already updated our `wallet` state variable with the wallet instance when the Dapp is loaded. Now, we need to wait until the user has given permission to connect their wallet to the Hangzhounet testnet. If they grant permission, we get the user address like before and call our setup function again.
 
 That’s it! Our user is connected, and all state variables are set.
 
@@ -268,7 +268,7 @@ In this section of the chapter, you will learn how to make a tez transaction wit
 Let's get back to our App.tsx.
 If the user has connected to the Dapp with their wallet, we will have the values of our state variables `userAddress` and the `userBalance`.
 
-The user will then view a different state of our Dapp, starting on line 92.
+The user will then view a different state of our Dapp, starting on line 94.
 
 ```
   } else if (userAddress && !isNaN(userBalance)) {
@@ -276,7 +276,7 @@ The user will then view a different state of our Dapp, starting on line 92.
 
 The content div with the class main-box will look different.
 We have two tabs, one to make a transfer and one to interact with the contract. 
-Let's look at how to make a transfer first, the tab with the id `transfers` (line 115).
+Let's look at how to make a transfer first, the tab with the id `transfers` (line 117).
 
 ```
               <div id="transfers">
@@ -349,7 +349,7 @@ Learn more about making transactions in the [Taquito documentation](https://tezo
 ## 3.5 Contract interactions
 This section will show you how to interact with the increment/decrement contract through your Dapp.
 
-Let's look into the second tab of our main content div in App.tsx. It has the id `increment-decrement` (line 124).
+Let's look into the second tab of our main content div in App.tsx. It has the id `increment-decrement` (line 126).
 
 ```
               <div id="increment-decrement">
