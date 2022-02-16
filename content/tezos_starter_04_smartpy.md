@@ -176,7 +176,7 @@ Now that you know what the FA2 token standard is, we can create a contract that 
 
 Our contract needs to transfer the NFT. The NFT we create works with the FA2 token standard. This means that we can transfer our NFT with the transfer entrypoint.
 
-You can find a SmartPy FA2 implementation [here](https://smartpy.io/ide?cid=QmWxgJJaWedeZHLG5dTqauAM8wcCs4yqQGkBMLvQ6Qmcuy&k=5229ded0aaece06197d9). This is what we are going to use.
+You can find a SmartPy FA2 implementation [here](https://smartpy.io/ide?template=FA2.py). This is what we are going to use.
 
 ```
 import smartpy as sp
@@ -486,7 +486,8 @@ def test():
     )
  
     shop.transfer_token().run(
-        sender = bob
+        sender = bob,
+        valid = False
     )
 ```
 
@@ -704,17 +705,27 @@ we need to specify the available stock, the address of the token that we want to
 
 Test this contract in the [SmartPy IDE](https://smartpy.io/ide?code=eJy9WFtv2zYUfvevINQXCfPUOHtqgBRzsqQb1qSo42LAikCgJcrmLJEqSTlxhv33Hoq6UBLtJBg2PcSmzuHh4Xdun0PzgguFZI6FKvYISySLyfX8lOYFOofvIeUhrXQiRfIiw4r4HsjDYu8Fk0mcYSkRrH2zJ4SP4GyC4ClA0igs@Zawuw0vopizlK6NRkJSFEWUURVFviRZOkX8gRExTxJBpKzt6EcLQ1sGvtnL0Tk@eH7JmRI4VsHB04wzU1S9TLDCwyMrgdoXxG_fV7IiXN7gov@yEdxiNXUKFiTmIhlv0k9cCkGYiqTi8dYA7zakH6VvGeEWCa1cA@HeUAgak1rxplTkaaQVTNyrYIyH36HVFxo04RjzZVJJf4Yz4WJiHxWcMuUHbSxW5T6qblIHw9xqS1kCQUrIox2LIpSkDsRQbdpgFdjqOyJouh9ETTup_daeKkyZHBkL@vjlgChea@S8L2zLIOOQ1kU8Nd56Dpw6kxrw9sg1UePTnvW4CHHOS6bQ@3PLcFjF86Crd1yIPeC5IWYP2vMSYQErsadsDS9RUYp4gyVB8AdhlNA0JTr_TKa4rnXAQ8upfgq_1zsYVv7JYUxf4yiViJdKI1_Zd7rYgP11CPR9OKwvvLKDPxD_2Pg@C4J@DrLEt1K915GmXbSm9iVvuQKE47oX6Z7ZYvc4F2u5hKSuS_MjlaoH75GukQqeR8_UvnqUhyy_4IQuxM@d008GmjzXv@Cp07pVdOkFYYYhI5Tve@CDN0X605wAC8@Y8IIgGG7uvbCsVJjprQCMF9hNrv3axMl41qx62HRh693OyqZef@4peWCOSag1K39DXoC25DkM1t9ul1eL6_nlFbpaLD4txtli_Mp0OL_CFzEOnZUYOlWdbrSJYQwN8XMb7i7amofaEs4QW5lw4lSw428q7WgQ761g3fdqsgF00JYqsPong3KuZ9@oIzVRtvKBphCqmu5IDzGoYcqAPTCckyg6aycbgAu0CDDUAl3tLQHxukFXKVjTDGftNNaiCMexBsP35lrgdddb8ZVL7YKvLCWc5OCay5oWQHwFVlzYmSRjwrCgHFm7mne@nXFVTz6v2F0PsI7q1XRunCcJWZXrKOeJvuhSlGScBYyzKC3Zmq6yRqlPQoZzQ2Hd3I3TpaKZDJt3EU@jUmS@t1GqkGdv35JHDMEjUMC5N7DT4FV9hnV1uKZJg9IP9ei1AIT4ao9bsjlMJ0ODhqR3jNKA0UK8Rw45kGj5l4EiByL6t4twmumLzlyyI_Xt4qKmRF_GRqt16Go77WPxUV2Q4@If8NF_nITUCpCOyCBxb0gFkP6pkuMtiZpc6d@5qdu5UA9cbE9mXt_jhMQ0x5kcNzK5z1c8M1thm2uYGCRyTXsHKdgyd_DbDVXbIGcHy6C9Zl_D7r3WlBElG9Jh3b6bSnD5_0Zz9LoNPFC1QQ@CAy2jSa8Swo7Iz44ek41Iqz0FTCL05TvYo@9xDREgjhQ44GCVXod8PPmXPg6nxyt8_K9csmFzg4PXmP4vxx9DxCTWGzRP_iqlqmg_9OeCwpClnCGFBfxIQnp@iZr9A28THSXD8JPKdG@7SdZT2LIUGUsNW9S3BdLn6NYv7NSDLi3bioUTnmZL8m55ld8U3z4_ktlP8U4uT2mRfvzwa_6u3Fzi5Maa1RZQzzbxQw38SPN@ReN2_AuhvdTvy9nd5pRvaXp6ffEnXc7n@WZd_LF7@uVi923xsPtMP_DhVNXP8a7erepuDgT8OwCt300-).
 
-#### Deploy and test your contract 
+#### Deploy and test your contract
 Before you can deploy your contract, you need to know the address of the token you want to sell.
 
 **Create an NFT to test**
-To create a simple NFT on the granda testnet we will just fork a token contract.
-1. Open this contract (https://better-call.dev/granadanet/KT1DRbT9JvFurMwx8dsMbEWattuWGDZxaA9y/fork) in "better-call.dev".
-2. Click on Fork.
-3. Add your address as the administrator.
-4. Select "GRANADANET" as the network.
-5. Click execute at the bottom and confirm the transaction with your temple wallet.
-6. After your contract is deployed, save the address of the contract.
+To create a simple NFT on the hangzhounet testnet we will deploy the FA2 example contract from the smartpy ide.
+1. Open this contract and import it https://smartpy.io/ide?template=FA2.py
+2. Adjust the admin address to your own wallet address in the `add_compilation_target` on line 1089.
+3. Click on "Run" and wait for compiling the contract. This might take a couple of seconds.
+4. Click on "Targets" (next to "Run") and select the "FA2_comp" compilation target. This might also take some time.
+5. In the right pane, click on the "Deploy Michelson Contract" tab and on the "Deploy Michelson Contract" button below it.
+6. Select the Hangzhounet in the "Node and Network" dropdown.
+7. Connect your wallet and load your account below. You might have to activate your account first if you have never used it before.
+8. In the "Origination Parameters" section click on "ESTIMATE COST FROM RPC".
+9. Click on "Deploy Contract", "Accept" and sign the transaction with your wallet.
+10. In the new  "Origination Result" section click on "OPEN EXPLORER". In the new window scroll down to the bottom of the page and select "View on other explorers: Better Call Dev: Any network."
+11. Click on the address of the new Contract. You might have to wait a minute or two and refresh the page a couple of times.
+12. Go to "INTERACT" tab and select the "mint" operation on the right side.
+13. Follow the instructions below on how to "Deploy your token shop contract". Copy the address of the Shop Contract
+14. Paste the address of the Shop Contract in the address form field in the "PARAMETERS" section. Fill next form field "amount" with value 1.
+15. In the "OPTIONAL SETTINGS" section fill amunt with the price of the NFT as specified in the Shop Contract (1 tez = 1000000 mutez).
+16. Click on "EXECUTE" and choose your wallet. Make sure you select the Administrator account to sign the transaction with.
 
 **Deploy your token shop contract**
 You can use the smartpy IDE to deploy your contract.
@@ -723,7 +734,7 @@ You can use the smartpy IDE to deploy your contract.
 3. Click on "run" to compile your contract.
 4. Select token_shop from the dropdown under compilations.
 5. Click on "Deploy Michelson Contract" in the right window and then own the "Deploy Michelson Contract" button.
-6. Select the Granada network from the "Node and Network" dropdown.
+6. Select the Hangzhounet network from the "Node and Network" dropdown.
 7. Click on Temple wallet and confirm the connection.
 8. Click on "ESTIMATE COST FROM RPC" button.
 9. Click on "DEPLOY CONTRACT" button, accept the information and confirm the transaction.
